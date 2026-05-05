@@ -1,0 +1,172 @@
+[
+  {
+    "id": "training_attitude_style",
+    "skill": "attitude_style",
+    "title": "Thái độ và tác phong khi chat với khách",
+    "description": "Chuẩn hóa lời chào, kính ngữ, cách dùng từ và mức độ chuyên nghiệp trong từng câu trả lời.",
+    "lessons": [
+      "Mở đầu bằng lời chào + câu hỏi mở đúng mẫu.",
+      "Dùng Dạ/ạ/vâng xuyên suốt hội thoại.",
+      "Tránh viết tắt, teencode và icon quá nhiều."
+    ],
+    "sample_phrases": [
+      "Dạ chào mình, Buddy có thể hỗ trợ gì cho mình ạ?",
+      "Dạ em kiểm tra và hỗ trợ mình ngay ạ."
+    ],
+    "practice_tasks": [
+      "Viết lại 5 câu mở đầu theo cùng một chuẩn ngôn ngữ lịch sự.",
+      "Sửa 10 câu chat có teencode thành ngôn ngữ CSKH chuẩn."
+    ]
+  },
+  {
+    "id": "training_hair_analysis",
+    "skill": "hair_analysis",
+    "title": "Khai thác nền tóc trước khi tư vấn",
+    "description": "Rèn kỹ năng hỏi lịch sử tóc và yêu cầu ảnh tóc hiện tại trước khi vào tư vấn công thức.",
+    "lessons": [
+      "Hỏi khách về lịch sử nhuộm đen/đỏ.",
+      "Hỏi tóc tẩy hay tóc tự nhiên.",
+      "Bắt buộc xin ảnh tóc hiện tại trước khi tư vấn."
+    ],
+    "sample_phrases": [
+      "Dạ trước đây tóc mình từng nhuộm đen hoặc đỏ chưa ạ?",
+      "Dạ mình gửi ảnh tóc hiện tại giúp Buddy trước khi em tư vấn công thức nhé ạ."
+    ],
+    "practice_tasks": [
+      "Viết checklist 3 câu hỏi nền tóc bắt buộc.",
+      "Thực hành 10 opening flows có bước xin ảnh tóc trước khi tư vấn."
+    ]
+  },
+  {
+    "id": "training_product_consulting",
+    "skill": "product_consulting",
+    "title": "Tư vấn màu và sản phẩm đúng ngữ cảnh",
+    "description": "Củng cố cách giải thích nền tóc ảnh hưởng lên màu và cách gửi feedback tham khảo.",
+    "lessons": [
+      "Giải thích nền tóc ảnh hưởng màu lên thực tế.",
+      "Nêu rõ cần tẩy bao nhiêu lần.",
+      "Gửi ảnh feedback hoặc màu tham khảo."
+    ],
+    "sample_phrases": [
+      "Dạ với nền tóc hiện tại, màu sẽ lên khoảng 80-85% tone mong muốn ạ.",
+      "Dạ em gửi mình ảnh feedback thực tế để dễ hình dung hơn ạ."
+    ],
+    "practice_tasks": [
+      "Soạn 5 mẫu tư vấn màu cho 5 nền tóc khác nhau.",
+      "Ghép đúng feedback tham khảo cho từng tình huống tư vấn."
+    ]
+  },
+  {
+    "id": "training_technical_guidance",
+    "skill": "technical_guidance",
+    "title": "Hướng dẫn kỹ thuật rõ ràng",
+    "description": "Luyện cách nói công thức, tỉ lệ pha, thứ tự chải và thời gian ủ một cách dễ hiểu.",
+    "lessons": [
+      "Nêu tỉ lệ pha rõ ràng.",
+      "Hướng dẫn chải thân/ngọn/chân đúng thứ tự.",
+      "Nêu thời gian ủ cụ thể."
+    ],
+    "sample_phrases": [
+      "Dạ mình pha màu với oxy theo tỉ lệ 1:1 ạ.",
+      "Dạ mình chải thân và ngọn trước, phần chân lên sau để màu đều hơn ạ."
+    ],
+    "practice_tasks": [
+      "Viết 3 hướng dẫn kỹ thuật hoàn chỉnh cho 3 case khác nhau.",
+      "Phân biệt khi nào chải thân trước và khi nào chải chân trước."
+    ]
+  },
+  {
+    "id": "training_sop_compliance",
+    "skill": "sop_compliance",
+    "title": "Tuân thủ SOP tư vấn",
+    "description": "Đảm bảo hội thoại đi đủ 5 bước SOP từ khai thác đến chốt đơn.",
+    "lessons": [
+      "Khai thác ít nhất 2 câu hỏi.",
+      "Đưa ra giải pháp và mức độ lên màu dự kiến.",
+      "Báo giá ship, tổng tiền và phương thức thanh toán."
+    ],
+    "sample_phrases": [
+      "Dạ mình muốn tone sáng hay trầm hơn ạ?",
+      "Dạ tổng tiền đơn của mình là 325k, mình thanh toán COD hay chuyển khoản ạ?"
+    ],
+    "practice_tasks": [
+      "Đánh dấu 5 bước SOP trên 10 hội thoại mẫu.",
+      "Viết lại 3 hội thoại thiếu bước thành phiên bản đủ SOP."
+    ]
+  },
+  {
+    "id": "training_closing_skill",
+    "skill": "closing_skill",
+    "title": "Kỹ năng kết thúc hội thoại",
+    "description": "Chuẩn hóa cách nhân viên chủ động kết thúc hội thoại bằng cảm ơn hoặc lời chúc.",
+    "lessons": [
+      "Không để khách là người nhắn cuối.",
+      "Kết thúc bằng cảm ơn hoặc chúc khách."
+    ],
+    "sample_phrases": [
+      "Dạ cảm ơn mình đã nhắn Buddy ạ.",
+      "Dạ nếu cần thêm hỗ trợ mình cứ nhắn Buddy bất cứ lúc nào ạ."
+    ],
+    "practice_tasks": [
+      "Viết 10 câu closing cho các tình huống đã chốt và chưa chốt.",
+      "Rà soát 20 hội thoại để phát hiện khách bị bỏ cuối."
+    ]
+  },
+  {
+    "id": "training_aftercare",
+    "skill": "aftercare",
+    "title": "Dặn dò hậu mãi và giữ màu",
+    "description": "Chuẩn hóa phần chăm sóc tóc sau nhuộm để giảm khiếu nại sau bán.",
+    "lessons": [
+      "Dặn cách giữ màu.",
+      "Dặn không dùng dầu tẩy mạnh trong 48h đầu.",
+      "Dặn cách chăm tóc sau nhuộm."
+    ],
+    "sample_phrases": [
+      "Dạ trong 48h đầu mình chưa nên gội dầu tẩy mạnh ạ.",
+      "Dạ mình dưỡng tóc đều để màu giữ ổn định hơn ạ."
+    ],
+    "practice_tasks": [
+      "Viết 5 block aftercare dùng lại được cho các tone màu khác nhau.",
+      "Phân tích các lỗi hậu mãi thường gây khiếu nại."
+    ]
+  },
+  {
+    "id": "training_complaint_handling",
+    "skill": "complaint_handling",
+    "title": "Xử lý phản hồi và khiếu nại",
+    "description": "Rèn quy trình 4 bước xử lý khiếu nại và thái độ lắng nghe không tranh cãi.",
+    "lessons": [
+      "Xin lỗi cảm xúc trước.",
+      "Yêu cầu ảnh thực tế.",
+      "Tìm nguyên nhân rồi đưa giải pháp."
+    ],
+    "sample_phrases": [
+      "Dạ em xin lỗi mình vì trải nghiệm chưa tốt ạ.",
+      "Dạ mình gửi giúp em ảnh thực tế để em kiểm tra nguyên nhân và hỗ trợ hướng xử lý ạ."
+    ],
+    "practice_tasks": [
+      "Role-play 5 case khiếu nại theo đúng 4 bước.",
+      "Phân biệt câu nào là lắng nghe, câu nào là tranh cãi."
+    ]
+  },
+  {
+    "id": "training_product_knowledge",
+    "skill": "product_knowledge",
+    "title": "Kiến thức sản phẩm và tính chính xác thông tin",
+    "description": "Giảm lỗi báo sai giá, sai dung tích, sai công dụng sản phẩm.",
+    "lessons": [
+      "Đối chiếu giá trước khi báo.",
+      "Đối chiếu dung tích và công dụng.",
+      "Không suy đoán thông tin sản phẩm."
+    ],
+    "sample_phrases": [
+      "Dạ em kiểm tra lại thông tin sản phẩm chính xác cho mình ngay ạ.",
+      "Dạ giá hiện tại của sản phẩm này là ... ạ."
+    ],
+    "practice_tasks": [
+      "So sánh 10 case báo giá sai để rút checklist kiểm tra.",
+      "Làm bài tập matching sản phẩm với đúng dung tích và công dụng."
+    ]
+  }
+]

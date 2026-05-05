@@ -1,0 +1,1389 @@
+[
+  {
+    "saved_at": "2026-05-04T08:18:22.790098+00:00",
+    "date": "2026-05-04",
+    "employee": {
+      "id": "emp_001",
+      "name": "Nhân viên A"
+    },
+    "evaluation": {
+      "conversation_id": "hair-pass-001",
+      "total_score": 100.0,
+      "max_score": 100.0,
+      "grade": "Xuất sắc",
+      "passed": true,
+      "blacklist_triggered": false,
+      "category_scores": [
+        {
+          "category_id": "attitude_style",
+          "name": "Thái độ và Tác phong",
+          "score": 20.0,
+          "max_score": 20.0
+        },
+        {
+          "category_id": "professional_consulting",
+          "name": "Kiến thức Chuyên môn và Tư vấn",
+          "score": 30.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "sop_process",
+          "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+          "score": 30.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "complaint_handling",
+          "name": "Xử lý Phản hồi và Khiếu nại",
+          "score": 20.0,
+          "max_score": 20.0
+        }
+      ],
+      "findings": [
+        {
+          "rule_id": "opening_greeting",
+          "rule_name": "Có lời chào và câu hỏi mở",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "low",
+          "evidence_message_ids": [
+            "m1"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Có lời chào và câu hỏi mở.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_closing",
+          "rule_name": "Nhân viên là người kết thúc cuộc trò chuyện",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m11"
+          ],
+          "evidence_text": "Dạ cảm ơn mình đã nhắn Buddy ạ, cần gì Buddy luôn sẵn sàng hỗ trợ. Chúc mình một ngày vui ạ.",
+          "explanation": "Nhân viên là người kết thúc cuộc trò chuyện đúng chuẩn.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "polite_language",
+          "rule_name": "Dùng kính ngữ trong các câu trả lời",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m1",
+            "m3",
+            "m4"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ? | Dạ trước đây tóc mình có nhuộm đen hoặc nhuộm đỏ chưa ạ? Tóc mình là tóc tẩy hay tóc tự nhiên ạ? Mình đã từng uốn hay duỗi trước đó chưa ạ?",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Dùng kính ngữ trong các câu trả lời.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "no_slang",
+          "rule_name": "Không viết tắt, không teencode",
+          "passed": true,
+          "score": 3.0,
+          "max_score": 3.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không viết tắt, không teencode.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "max_emoji_per_message",
+          "rule_name": "Icon dùng chừng mực",
+          "passed": true,
+          "score": 2.0,
+          "max_score": 2.0,
+          "severity": "low",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Mỗi tin nhắn đều không vượt quá 3 icon.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "ask_hair_history",
+          "rule_name": "Hỏi lịch sử tóc",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m3",
+            "m3",
+            "m3"
+          ],
+          "evidence_text": "Matched groups: 3",
+          "explanation": "Đã phủ 3 nhóm thông tin bắt buộc.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "request_current_hair_photo",
+          "rule_name": "Yêu cầu ảnh tóc hiện tại",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "high",
+          "evidence_message_ids": [
+            "m4"
+          ],
+          "evidence_text": "Dạ mình gửi ảnh tóc hiện tại giúp Buddy với ạ.",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Yêu cầu ảnh tóc hiện tại.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "explain_color_result",
+          "rule_name": "Giải thích quy tắc lên màu",
+          "passed": true,
+          "score": 10.0,
+          "max_score": 10.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m3",
+            "m6",
+            "m10"
+          ],
+          "evidence_text": "Dạ trước đây tóc mình có nhuộm đen hoặc nhuộm đỏ chưa ạ? Tóc mình là tóc tẩy hay tóc tự nhiên ạ? Mình đã từng uốn hay duỗi trước đó chưa ạ? | Dạ với nền tóc hiện tại còn tối, muốn lên màu nâu lạnh thì mình cần tẩy 1 lần rồi lên màu bằng mã màu 6.1 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 85-90% để tránh khiếu nại về độ sáng ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Giải thích quy tắc lên màu.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "send_feedback_image",
+          "rule_name": "Gửi ảnh feedback hoặc màu tham khảo",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m7"
+          ],
+          "evidence_text": "Dạ Buddy gửi mình ảnh feedback màu tham khảo ạ.",
+          "explanation": "Đã có attachment bắt buộc.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "technical_instruction",
+          "rule_name": "Hướng dẫn kỹ thuật rõ ràng",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m8"
+          ],
+          "evidence_text": "Dạ công thức pha là màu với oxy theo tỉ lệ 1:1, chải thân và ngọn trước rồi mới lên chân, thời gian ủ khoảng 35 phút ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Hướng dẫn kỹ thuật rõ ràng.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_discovery",
+          "rule_name": "Bước 1 - Khai thác",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m1",
+            "m3",
+            "m9"
+          ],
+          "evidence_text": "Question marks counted: 5",
+          "explanation": "Đã có 5 câu hỏi khai thác.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_solution",
+          "rule_name": "Bước 2 - Giải pháp",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m6",
+            "m8"
+          ],
+          "evidence_text": "Dạ với nền tóc hiện tại còn tối, muốn lên màu nâu lạnh thì mình cần tẩy 1 lần rồi lên màu bằng mã màu 6.1 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 85-90% để tránh khiếu nại về độ sáng ạ. | Dạ công thức pha là màu với oxy theo tỉ lệ 1:1, chải thân và ngọn trước rồi mới lên chân, thời gian ủ khoảng 35 phút ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Bước 2 - Giải pháp.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_commitment",
+          "rule_name": "Bước 3 - Cam kết",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m6",
+            "m8"
+          ],
+          "evidence_text": "Dạ với nền tóc hiện tại còn tối, muốn lên màu nâu lạnh thì mình cần tẩy 1 lần rồi lên màu bằng mã màu 6.1 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 85-90% để tránh khiếu nại về độ sáng ạ. | Dạ công thức pha là màu với oxy theo tỉ lệ 1:1, chải thân và ngọn trước rồi mới lên chân, thời gian ủ khoảng 35 phút ạ.",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Bước 3 - Cam kết.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_close_order",
+          "rule_name": "Bước 4 - Chốt đơn",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m9"
+          ],
+          "evidence_text": "Dạ ship 25k, tổng tiền là 325k ạ. Mình muốn thanh toán COD hay chuyển khoản ạ?",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Bước 4 - Chốt đơn.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_aftercare",
+          "rule_name": "Bước 5 - Hậu mãi",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "m10"
+          ],
+          "evidence_text": "Dạ sau khi nhuộm mình giúp em chăm sóc tóc nhẹ nhàng, giữ màu và không gội dầu tẩy mạnh trong 48h đầu ạ.",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Bước 5 - Hậu mãi.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "complaint_no_argument",
+          "rule_name": "Không tranh cãi, không đổ lỗi khách",
+          "passed": true,
+          "score": 8.0,
+          "max_score": 8.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không tranh cãi, không đổ lỗi khách.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "complaint_flow",
+          "rule_name": "Đúng công thức xử lý khiếu nại",
+          "passed": true,
+          "score": 12.0,
+          "max_score": 12.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Hội thoại không có khiếu nại, rule xử lý khiếu nại được coi là đạt.",
+          "suggestion": null
+        }
+      ],
+      "blacklist_findings": []
+    }
+  },
+  {
+    "saved_at": "2026-05-04T08:18:22.790609+00:00",
+    "date": "2026-05-04",
+    "employee": {
+      "id": "emp_004",
+      "name": "Nhân viên D"
+    },
+    "evaluation": {
+      "conversation_id": "hair-good-001",
+      "total_score": 89.0,
+      "max_score": 100.0,
+      "grade": "Tốt",
+      "passed": true,
+      "blacklist_triggered": false,
+      "category_scores": [
+        {
+          "category_id": "attitude_style",
+          "name": "Thái độ và Tác phong",
+          "score": 20.0,
+          "max_score": 20.0
+        },
+        {
+          "category_id": "professional_consulting",
+          "name": "Kiến thức Chuyên môn và Tư vấn",
+          "score": 25.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "sop_process",
+          "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+          "score": 24.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "complaint_handling",
+          "name": "Xử lý Phản hồi và Khiếu nại",
+          "score": 20.0,
+          "max_score": 20.0
+        }
+      ],
+      "findings": [
+        {
+          "rule_id": "opening_greeting",
+          "rule_name": "Có lời chào và câu hỏi mở",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "low",
+          "evidence_message_ids": [
+            "g1"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Có lời chào và câu hỏi mở.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_closing",
+          "rule_name": "Nhân viên là người kết thúc cuộc trò chuyện",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g7"
+          ],
+          "evidence_text": "Dạ cảm ơn mình ạ, Buddy luôn sẵn sàng hỗ trợ.",
+          "explanation": "Nhân viên là người kết thúc cuộc trò chuyện đúng chuẩn.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "polite_language",
+          "rule_name": "Dùng kính ngữ trong các câu trả lời",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g1",
+            "g3",
+            "g4"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ? | Dạ tóc mình từng nhuộm đen chưa ạ? Mình gửi ảnh tóc hiện tại giúp Buddy nhé ạ?",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Dùng kính ngữ trong các câu trả lời.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "no_slang",
+          "rule_name": "Không viết tắt, không teencode",
+          "passed": true,
+          "score": 3.0,
+          "max_score": 3.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không viết tắt, không teencode.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "max_emoji_per_message",
+          "rule_name": "Icon dùng chừng mực",
+          "passed": true,
+          "score": 2.0,
+          "max_score": 2.0,
+          "severity": "low",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Mỗi tin nhắn đều không vượt quá 3 icon.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "ask_hair_history",
+          "rule_name": "Hỏi lịch sử tóc",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g3",
+            "g4"
+          ],
+          "evidence_text": "Matched groups: 2",
+          "explanation": "Đã phủ 2 nhóm thông tin bắt buộc.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "request_current_hair_photo",
+          "rule_name": "Yêu cầu ảnh tóc hiện tại",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "high",
+          "evidence_message_ids": [
+            "g3"
+          ],
+          "evidence_text": "Dạ tóc mình từng nhuộm đen chưa ạ? Mình gửi ảnh tóc hiện tại giúp Buddy nhé ạ?",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Yêu cầu ảnh tóc hiện tại.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "explain_color_result",
+          "rule_name": "Giải thích quy tắc lên màu",
+          "passed": true,
+          "score": 10.0,
+          "max_score": 10.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g4"
+          ],
+          "evidence_text": "Dạ nền tóc của mình nếu muốn lên màu nâu rêu thì cần tẩy 1 lần, sau đó dùng mã màu 7.2 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 80% ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Giải thích quy tắc lên màu.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "send_feedback_image",
+          "rule_name": "Gửi ảnh feedback hoặc màu tham khảo",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa có attachment bắt buộc trong hội thoại.",
+          "suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+        },
+        {
+          "rule_id": "technical_instruction",
+          "rule_name": "Hướng dẫn kỹ thuật rõ ràng",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g5"
+          ],
+          "evidence_text": "Dạ công thức pha với oxy theo tỉ lệ 1:1, chải thân trước rồi thời gian ủ 30 phút ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Hướng dẫn kỹ thuật rõ ràng.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_discovery",
+          "rule_name": "Bước 1 - Khai thác",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g1",
+            "g3"
+          ],
+          "evidence_text": "Question marks counted: 3",
+          "explanation": "Đã có 3 câu hỏi khai thác.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_solution",
+          "rule_name": "Bước 2 - Giải pháp",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g4",
+            "g5"
+          ],
+          "evidence_text": "Dạ nền tóc của mình nếu muốn lên màu nâu rêu thì cần tẩy 1 lần, sau đó dùng mã màu 7.2 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 80% ạ. | Dạ công thức pha với oxy theo tỉ lệ 1:1, chải thân trước rồi thời gian ủ 30 phút ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Bước 2 - Giải pháp.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_commitment",
+          "rule_name": "Bước 3 - Cam kết",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g4"
+          ],
+          "evidence_text": "Dạ nền tóc của mình nếu muốn lên màu nâu rêu thì cần tẩy 1 lần, sau đó dùng mã màu 7.2 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 80% ạ.",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Bước 3 - Cam kết.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_close_order",
+          "rule_name": "Bước 4 - Chốt đơn",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "g6"
+          ],
+          "evidence_text": "Dạ ship 30k, tổng tiền 350k và mình thanh toán COD giúp em nhé ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Bước 4 - Chốt đơn.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_aftercare",
+          "rule_name": "Bước 5 - Hậu mãi",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 5 - Hậu mãi.",
+          "suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+        },
+        {
+          "rule_id": "complaint_no_argument",
+          "rule_name": "Không tranh cãi, không đổ lỗi khách",
+          "passed": true,
+          "score": 8.0,
+          "max_score": 8.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không tranh cãi, không đổ lỗi khách.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "complaint_flow",
+          "rule_name": "Đúng công thức xử lý khiếu nại",
+          "passed": true,
+          "score": 12.0,
+          "max_score": 12.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Hội thoại không có khiếu nại, rule xử lý khiếu nại được coi là đạt.",
+          "suggestion": null
+        }
+      ],
+      "blacklist_findings": []
+    }
+  },
+  {
+    "saved_at": "2026-05-04T08:18:22.790611+00:00",
+    "date": "2026-05-04",
+    "employee": {
+      "id": "emp_002",
+      "name": "Nhân viên B"
+    },
+    "evaluation": {
+      "conversation_id": "hair-average-001",
+      "total_score": 57.0,
+      "max_score": 100.0,
+      "grade": "Trung bình",
+      "passed": false,
+      "blacklist_triggered": false,
+      "category_scores": [
+        {
+          "category_id": "attitude_style",
+          "name": "Thái độ và Tác phong",
+          "score": 20.0,
+          "max_score": 20.0
+        },
+        {
+          "category_id": "professional_consulting",
+          "name": "Kiến thức Chuyên môn và Tư vấn",
+          "score": 5.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "sop_process",
+          "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+          "score": 12.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "complaint_handling",
+          "name": "Xử lý Phản hồi và Khiếu nại",
+          "score": 20.0,
+          "max_score": 20.0
+        }
+      ],
+      "findings": [
+        {
+          "rule_id": "opening_greeting",
+          "rule_name": "Có lời chào và câu hỏi mở",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "low",
+          "evidence_message_ids": [
+            "a1"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Có lời chào và câu hỏi mở.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_closing",
+          "rule_name": "Nhân viên là người kết thúc cuộc trò chuyện",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "a6"
+          ],
+          "evidence_text": "Dạ cảm ơn mình đã nhắn Buddy ạ.",
+          "explanation": "Nhân viên là người kết thúc cuộc trò chuyện đúng chuẩn.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "polite_language",
+          "rule_name": "Dùng kính ngữ trong các câu trả lời",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "a1",
+            "a3",
+            "a4"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ? | Dạ tóc mình từng nhuộm đen chưa ạ?",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Dùng kính ngữ trong các câu trả lời.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "no_slang",
+          "rule_name": "Không viết tắt, không teencode",
+          "passed": true,
+          "score": 3.0,
+          "max_score": 3.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không viết tắt, không teencode.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "max_emoji_per_message",
+          "rule_name": "Icon dùng chừng mực",
+          "passed": true,
+          "score": 2.0,
+          "max_score": 2.0,
+          "severity": "low",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Mỗi tin nhắn đều không vượt quá 3 icon.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "ask_hair_history",
+          "rule_name": "Hỏi lịch sử tóc",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "a3"
+          ],
+          "evidence_text": "Matched groups: 1",
+          "explanation": "Mới phủ 1/2 nhóm thông tin bắt buộc.",
+          "suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+        },
+        {
+          "rule_id": "request_current_hair_photo",
+          "rule_name": "Yêu cầu ảnh tóc hiện tại",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "high",
+          "evidence_message_ids": [
+            "a4"
+          ],
+          "evidence_text": "Dạ mình gửi ảnh tóc hiện tại giúp Buddy với ạ.",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Yêu cầu ảnh tóc hiện tại.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "explain_color_result",
+          "rule_name": "Giải thích quy tắc lên màu",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 10.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: nền tóc, tẩy, lên màu.",
+          "suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+        },
+        {
+          "rule_id": "send_feedback_image",
+          "rule_name": "Gửi ảnh feedback hoặc màu tham khảo",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa có attachment bắt buộc trong hội thoại.",
+          "suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+        },
+        {
+          "rule_id": "technical_instruction",
+          "rule_name": "Hướng dẫn kỹ thuật rõ ràng",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: tỉ lệ, chải, thời gian ủ.",
+          "suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+        },
+        {
+          "rule_id": "sop_discovery",
+          "rule_name": "Bước 1 - Khai thác",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "a1",
+            "a3"
+          ],
+          "evidence_text": "Question marks counted: 2",
+          "explanation": "Đã có 2 câu hỏi khai thác.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_solution",
+          "rule_name": "Bước 2 - Giải pháp",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "a5"
+          ],
+          "evidence_text": "Dạ nếu nhuộm thì mình dùng mã màu 7.1 với oxy 9 ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Bước 2 - Giải pháp.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_commitment",
+          "rule_name": "Bước 3 - Cam kết",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 3 - Cam kết.",
+          "suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+        },
+        {
+          "rule_id": "sop_close_order",
+          "rule_name": "Bước 4 - Chốt đơn",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: ship, tổng tiền, thanh toán.",
+          "suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+        },
+        {
+          "rule_id": "sop_aftercare",
+          "rule_name": "Bước 5 - Hậu mãi",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 5 - Hậu mãi.",
+          "suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+        },
+        {
+          "rule_id": "complaint_no_argument",
+          "rule_name": "Không tranh cãi, không đổ lỗi khách",
+          "passed": true,
+          "score": 8.0,
+          "max_score": 8.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không tranh cãi, không đổ lỗi khách.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "complaint_flow",
+          "rule_name": "Đúng công thức xử lý khiếu nại",
+          "passed": true,
+          "score": 12.0,
+          "max_score": 12.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Hội thoại không có khiếu nại, rule xử lý khiếu nại được coi là đạt.",
+          "suggestion": null
+        }
+      ],
+      "blacklist_findings": []
+    }
+  },
+  {
+    "saved_at": "2026-05-04T08:18:22.790613+00:00",
+    "date": "2026-05-04",
+    "employee": {
+      "id": "emp_002",
+      "name": "Nhân viên B"
+    },
+    "evaluation": {
+      "conversation_id": "hair-blacklist-no-photo-001",
+      "total_score": 41.0,
+      "max_score": 100.0,
+      "grade": "Không đạt",
+      "passed": false,
+      "blacklist_triggered": true,
+      "category_scores": [
+        {
+          "category_id": "attitude_style",
+          "name": "Thái độ và Tác phong",
+          "score": 15.0,
+          "max_score": 20.0
+        },
+        {
+          "category_id": "professional_consulting",
+          "name": "Kiến thức Chuyên môn và Tư vấn",
+          "score": 0.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "sop_process",
+          "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+          "score": 6.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "complaint_handling",
+          "name": "Xử lý Phản hồi và Khiếu nại",
+          "score": 20.0,
+          "max_score": 20.0
+        }
+      ],
+      "findings": [
+        {
+          "rule_id": "opening_greeting",
+          "rule_name": "Có lời chào và câu hỏi mở",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "low",
+          "evidence_message_ids": [
+            "b1"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Có lời chào và câu hỏi mở.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_closing",
+          "rule_name": "Nhân viên là người kết thúc cuộc trò chuyện",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "b4"
+          ],
+          "evidence_text": "Nhưng tóc mình đang nhuộm đen thì sao?",
+          "explanation": "Khách đang là người nhắn cuối hoặc nhân viên chưa kết thúc đúng chuẩn.",
+          "suggestion": "Kết thúc hội thoại bằng lời cảm ơn hoặc lời chúc."
+        },
+        {
+          "rule_id": "polite_language",
+          "rule_name": "Dùng kính ngữ trong các câu trả lời",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "b1",
+            "b3"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ? | Dạ với tóc của mình thì mã màu 9.11 và oxy 9 sẽ hợp, thời gian ủ 40 phút là được ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Dùng kính ngữ trong các câu trả lời.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "no_slang",
+          "rule_name": "Không viết tắt, không teencode",
+          "passed": true,
+          "score": 3.0,
+          "max_score": 3.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không viết tắt, không teencode.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "max_emoji_per_message",
+          "rule_name": "Icon dùng chừng mực",
+          "passed": true,
+          "score": 2.0,
+          "max_score": 2.0,
+          "severity": "low",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Mỗi tin nhắn đều không vượt quá 3 icon.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "ask_hair_history",
+          "rule_name": "Hỏi lịch sử tóc",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": "Matched groups: 0",
+          "explanation": "Mới phủ 0/2 nhóm thông tin bắt buộc.",
+          "suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+        },
+        {
+          "rule_id": "request_current_hair_photo",
+          "rule_name": "Yêu cầu ảnh tóc hiện tại",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Yêu cầu ảnh tóc hiện tại.",
+          "suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+        },
+        {
+          "rule_id": "explain_color_result",
+          "rule_name": "Giải thích quy tắc lên màu",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 10.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: nền tóc, tẩy, lên màu.",
+          "suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+        },
+        {
+          "rule_id": "send_feedback_image",
+          "rule_name": "Gửi ảnh feedback hoặc màu tham khảo",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa có attachment bắt buộc trong hội thoại.",
+          "suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+        },
+        {
+          "rule_id": "technical_instruction",
+          "rule_name": "Hướng dẫn kỹ thuật rõ ràng",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "b3"
+          ],
+          "evidence_text": "Dạ với tóc của mình thì mã màu 9.11 và oxy 9 sẽ hợp, thời gian ủ 40 phút là được ạ.",
+          "explanation": "Thiếu các ý bắt buộc: tỉ lệ, chải.",
+          "suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+        },
+        {
+          "rule_id": "sop_discovery",
+          "rule_name": "Bước 1 - Khai thác",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "b1"
+          ],
+          "evidence_text": "Question marks counted: 1",
+          "explanation": "Mới có 1/2 câu hỏi khai thác.",
+          "suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+        },
+        {
+          "rule_id": "sop_solution",
+          "rule_name": "Bước 2 - Giải pháp",
+          "passed": true,
+          "score": 6.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "b3"
+          ],
+          "evidence_text": "Dạ với tóc của mình thì mã màu 9.11 và oxy 9 sẽ hợp, thời gian ủ 40 phút là được ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Bước 2 - Giải pháp.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_commitment",
+          "rule_name": "Bước 3 - Cam kết",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 3 - Cam kết.",
+          "suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+        },
+        {
+          "rule_id": "sop_close_order",
+          "rule_name": "Bước 4 - Chốt đơn",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: ship, tổng tiền, thanh toán.",
+          "suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+        },
+        {
+          "rule_id": "sop_aftercare",
+          "rule_name": "Bước 5 - Hậu mãi",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 5 - Hậu mãi.",
+          "suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+        },
+        {
+          "rule_id": "complaint_no_argument",
+          "rule_name": "Không tranh cãi, không đổ lỗi khách",
+          "passed": true,
+          "score": 8.0,
+          "max_score": 8.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không tranh cãi, không đổ lỗi khách.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "complaint_flow",
+          "rule_name": "Đúng công thức xử lý khiếu nại",
+          "passed": true,
+          "score": 12.0,
+          "max_score": 12.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Hội thoại không có khiếu nại, rule xử lý khiếu nại được coi là đạt.",
+          "suggestion": null
+        }
+      ],
+      "blacklist_findings": [
+        {
+          "rule_id": "customer_unanswered",
+          "rule_name": "Bỏ ngang hội thoại",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 0.0,
+          "severity": "critical",
+          "evidence_message_ids": [
+            "b4"
+          ],
+          "evidence_text": "Nhưng tóc mình đang nhuộm đen thì sao?",
+          "explanation": "Khách là người nhắn cuối nhưng nhân viên chưa phản hồi.",
+          "suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+        },
+        {
+          "rule_id": "no_current_hair_photo",
+          "rule_name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 0.0,
+          "severity": "critical",
+          "evidence_message_ids": [
+            "b3"
+          ],
+          "evidence_text": "Dạ với tóc của mình thì mã màu 9.11 và oxy 9 sẽ hợp, thời gian ủ 40 phút là được ạ.",
+          "explanation": "Nhân viên tư vấn trước khi yêu cầu ảnh tóc hiện tại.",
+          "suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+        }
+      ]
+    }
+  },
+  {
+    "saved_at": "2026-05-04T08:18:22.790614+00:00",
+    "date": "2026-05-04",
+    "employee": {
+      "id": "emp_003",
+      "name": "Nhân viên C"
+    },
+    "evaluation": {
+      "conversation_id": "hair-complaint-pass-001",
+      "total_score": 45.0,
+      "max_score": 100.0,
+      "grade": "Không đạt",
+      "passed": false,
+      "blacklist_triggered": false,
+      "category_scores": [
+        {
+          "category_id": "attitude_style",
+          "name": "Thái độ và Tác phong",
+          "score": 20.0,
+          "max_score": 20.0
+        },
+        {
+          "category_id": "professional_consulting",
+          "name": "Kiến thức Chuyên môn và Tư vấn",
+          "score": 5.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "sop_process",
+          "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+          "score": 0.0,
+          "max_score": 30.0
+        },
+        {
+          "category_id": "complaint_handling",
+          "name": "Xử lý Phản hồi và Khiếu nại",
+          "score": 20.0,
+          "max_score": 20.0
+        }
+      ],
+      "findings": [
+        {
+          "rule_id": "opening_greeting",
+          "rule_name": "Có lời chào và câu hỏi mở",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "low",
+          "evidence_message_ids": [
+            "c1"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Có lời chào và câu hỏi mở.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "sop_closing",
+          "rule_name": "Nhân viên là người kết thúc cuộc trò chuyện",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "c7"
+          ],
+          "evidence_text": "Dạ cảm ơn mình đã phản hồi để Buddy hỗ trợ tốt hơn ạ.",
+          "explanation": "Nhân viên là người kết thúc cuộc trò chuyện đúng chuẩn.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "polite_language",
+          "rule_name": "Dùng kính ngữ trong các câu trả lời",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "c1",
+            "c3",
+            "c4"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ? | Dạ em xin lỗi mình vì trải nghiệm chưa tốt ạ.",
+          "explanation": "Đã có đầy đủ các ý bắt buộc cho rule Dùng kính ngữ trong các câu trả lời.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "no_slang",
+          "rule_name": "Không viết tắt, không teencode",
+          "passed": true,
+          "score": 3.0,
+          "max_score": 3.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không viết tắt, không teencode.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "max_emoji_per_message",
+          "rule_name": "Icon dùng chừng mực",
+          "passed": true,
+          "score": 2.0,
+          "max_score": 2.0,
+          "severity": "low",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Mỗi tin nhắn đều không vượt quá 3 icon.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "ask_hair_history",
+          "rule_name": "Hỏi lịch sử tóc",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "c6"
+          ],
+          "evidence_text": "Matched groups: 1",
+          "explanation": "Mới phủ 1/2 nhóm thông tin bắt buộc.",
+          "suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+        },
+        {
+          "rule_id": "request_current_hair_photo",
+          "rule_name": "Yêu cầu ảnh tóc hiện tại",
+          "passed": true,
+          "score": 5.0,
+          "max_score": 5.0,
+          "severity": "high",
+          "evidence_message_ids": [
+            "c4"
+          ],
+          "evidence_text": "Dạ mình gửi ảnh tóc hiện tại và ảnh thực tế sau nhuộm giúp em với ạ.",
+          "explanation": "Đã tìm thấy nội dung phù hợp cho rule Yêu cầu ảnh tóc hiện tại.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "explain_color_result",
+          "rule_name": "Giải thích quy tắc lên màu",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 10.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "c5"
+          ],
+          "evidence_text": "Dạ em kiểm tra nguyên nhân thì nền tóc cũ còn tối nên màu chưa lên đều ạ.",
+          "explanation": "Thiếu các ý bắt buộc: tẩy, lên màu.",
+          "suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+        },
+        {
+          "rule_id": "send_feedback_image",
+          "rule_name": "Gửi ảnh feedback hoặc màu tham khảo",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa có attachment bắt buộc trong hội thoại.",
+          "suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+        },
+        {
+          "rule_id": "technical_instruction",
+          "rule_name": "Hướng dẫn kỹ thuật rõ ràng",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 5.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: tỉ lệ, chải, thời gian ủ.",
+          "suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+        },
+        {
+          "rule_id": "sop_discovery",
+          "rule_name": "Bước 1 - Khai thác",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [
+            "c1"
+          ],
+          "evidence_text": "Question marks counted: 1",
+          "explanation": "Mới có 1/2 câu hỏi khai thác.",
+          "suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+        },
+        {
+          "rule_id": "sop_solution",
+          "rule_name": "Bước 2 - Giải pháp",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: mã màu, oxy.",
+          "suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+        },
+        {
+          "rule_id": "sop_commitment",
+          "rule_name": "Bước 3 - Cam kết",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 3 - Cam kết.",
+          "suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+        },
+        {
+          "rule_id": "sop_close_order",
+          "rule_name": "Bước 4 - Chốt đơn",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Thiếu các ý bắt buộc: ship, tổng tiền, thanh toán.",
+          "suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+        },
+        {
+          "rule_id": "sop_aftercare",
+          "rule_name": "Bước 5 - Hậu mãi",
+          "passed": false,
+          "score": 0.0,
+          "max_score": 6.0,
+          "severity": "medium",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Chưa tìm thấy nội dung bắt buộc cho rule Bước 5 - Hậu mãi.",
+          "suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+        },
+        {
+          "rule_id": "complaint_no_argument",
+          "rule_name": "Không tranh cãi, không đổ lỗi khách",
+          "passed": true,
+          "score": 8.0,
+          "max_score": 8.0,
+          "severity": "high",
+          "evidence_message_ids": [],
+          "evidence_text": null,
+          "explanation": "Không phát hiện nội dung cấm trong rule Không tranh cãi, không đổ lỗi khách.",
+          "suggestion": null
+        },
+        {
+          "rule_id": "complaint_flow",
+          "rule_name": "Đúng công thức xử lý khiếu nại",
+          "passed": true,
+          "score": 12.0,
+          "max_score": 12.0,
+          "severity": "high",
+          "evidence_message_ids": [
+            "c1",
+            "c3",
+            "c4"
+          ],
+          "evidence_text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ? | Dạ em xin lỗi mình vì trải nghiệm chưa tốt ạ.",
+          "explanation": "Đã xử lý khiếu nại đủ 4 bước.",
+          "suggestion": null
+        }
+      ],
+      "blacklist_findings": []
+    }
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "saved_at": "2026-05-04T08:41:03.021769+00:00",
+    "date": "2026-05-02",
+    "employee": {
+      "id": "emp_002",
+      "name": "Nhân viên B"
+    },
+    "evaluation": {
+      "conversation_id": "seed-w1-005",
+      "total_score": 72.0,
+      "max_score": 100.0,
+      "grade": "Trung bình",
+      "passed": false,
+      "blacklist_triggered": false,
+      "category_scores": [],
+      "findings": [],
+      "blacklist_findings": [],
+      "response_time": {
+        "avg_response_seconds": 200.0,
+        "max_response_seconds": 360.0,
+        "unanswered_customer_messages": 0,
+        "response_count": 3
+      },
+      "ruleset_version": "1.1.0"
+    }
+  },
+  {
+    "saved_at": "2026-05-04T08:41:03.021771+00:00",
+    "date": "2026-05-02",
+    "employee": {
+      "id": "emp_003",
+      "name": "Nhân viên C"
+    },
+    "evaluation": {
+      "conversation_id": "seed-w1-006",
+      "total_score": 55.0,
+      "max_score": 100.0,
+      "grade": "Trung bình",
+      "passed": false,
+      "blacklist_triggered": false,
+      "category_scores": [],
+      "findings": [],
+      "blacklist_findings": [],
+      "response_time": {
+        "avg_response_seconds": 280.0,
+        "max_response_seconds": 540.0,
+        "unanswered_customer_messages": 1,
+        "response_count": 2
+      },
+      "ruleset_version": "1.1.0"
+    }
+  }
+]

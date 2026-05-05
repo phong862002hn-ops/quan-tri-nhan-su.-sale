@@ -1,0 +1,332 @@
+[
+  {
+    "external_id": "hair-pass-001",
+    "channel": "pancake",
+    "employee": {
+      "id": "emp_001",
+      "name": "Nhân viên A"
+    },
+    "metadata": {
+      "has_complaint": false,
+      "flags": {
+        "incorrect_product_info": false
+      }
+    },
+    "messages": [
+      {
+        "id": "m1",
+        "sender_type": "employee",
+        "text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:00:00+07:00"
+      },
+      {
+        "id": "m2",
+        "sender_type": "customer",
+        "text": "Mình muốn nhuộm màu nâu lạnh.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:01:00+07:00"
+      },
+      {
+        "id": "m3",
+        "sender_type": "employee",
+        "text": "Dạ trước đây tóc mình có nhuộm đen hoặc nhuộm đỏ chưa ạ? Tóc mình là tóc tẩy hay tóc tự nhiên ạ? Mình đã từng uốn hay duỗi trước đó chưa ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:02:00+07:00"
+      },
+      {
+        "id": "m4",
+        "sender_type": "employee",
+        "text": "Dạ mình gửi ảnh tóc hiện tại giúp Buddy với ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:03:00+07:00"
+      },
+      {
+        "id": "m5",
+        "sender_type": "customer",
+        "text": "Mình gửi ảnh đây nhé.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:04:00+07:00"
+      },
+      {
+        "id": "m6",
+        "sender_type": "employee",
+        "text": "Dạ với nền tóc hiện tại còn tối, muốn lên màu nâu lạnh thì mình cần tẩy 1 lần rồi lên màu bằng mã màu 6.1 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 85-90% để tránh khiếu nại về độ sáng ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:06:00+07:00"
+      },
+      {
+        "id": "m7",
+        "sender_type": "employee",
+        "text": "Dạ Buddy gửi mình ảnh feedback màu tham khảo ạ.",
+        "attachments": [
+          {
+            "type": "image",
+            "name": "feedback-61.jpg"
+          }
+        ],
+        "sent_at": "2026-05-04T09:07:00+07:00"
+      },
+      {
+        "id": "m8",
+        "sender_type": "employee",
+        "text": "Dạ công thức pha là màu với oxy theo tỉ lệ 1:1, chải thân và ngọn trước rồi mới lên chân, thời gian ủ khoảng 35 phút ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:09:00+07:00"
+      },
+      {
+        "id": "m9",
+        "sender_type": "employee",
+        "text": "Dạ ship 25k, tổng tiền là 325k ạ. Mình muốn thanh toán COD hay chuyển khoản ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:10:00+07:00"
+      },
+      {
+        "id": "m10",
+        "sender_type": "employee",
+        "text": "Dạ sau khi nhuộm mình giúp em chăm sóc tóc nhẹ nhàng, giữ màu và không gội dầu tẩy mạnh trong 48h đầu ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:11:00+07:00"
+      },
+      {
+        "id": "m11",
+        "sender_type": "employee",
+        "text": "Dạ cảm ơn mình đã nhắn Buddy ạ, cần gì Buddy luôn sẵn sàng hỗ trợ. Chúc mình một ngày vui ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T09:12:00+07:00"
+      }
+    ]
+  },
+  {
+    "external_id": "hair-good-001",
+    "channel": "pancake",
+    "employee": {
+      "id": "emp_004",
+      "name": "Nhân viên D"
+    },
+    "metadata": {
+      "has_complaint": false,
+      "flags": {
+        "incorrect_product_info": false
+      }
+    },
+    "messages": [
+      {
+        "id": "g1",
+        "sender_type": "employee",
+        "text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:00:00+07:00"
+      },
+      {
+        "id": "g2",
+        "sender_type": "customer",
+        "text": "Mình muốn nhuộm nâu rêu.",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:01:00+07:00"
+      },
+      {
+        "id": "g3",
+        "sender_type": "employee",
+        "text": "Dạ tóc mình từng nhuộm đen chưa ạ? Mình gửi ảnh tóc hiện tại giúp Buddy nhé ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:02:00+07:00"
+      },
+      {
+        "id": "g4",
+        "sender_type": "employee",
+        "text": "Dạ nền tóc của mình nếu muốn lên màu nâu rêu thì cần tẩy 1 lần, sau đó dùng mã màu 7.2 với oxy 9 ạ. Dự kiến màu sẽ lên khoảng 80% ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:04:00+07:00"
+      },
+      {
+        "id": "g5",
+        "sender_type": "employee",
+        "text": "Dạ công thức pha với oxy theo tỉ lệ 1:1, chải thân trước rồi thời gian ủ 30 phút ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:05:00+07:00"
+      },
+      {
+        "id": "g6",
+        "sender_type": "employee",
+        "text": "Dạ ship 30k, tổng tiền 350k và mình thanh toán COD giúp em nhé ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:06:00+07:00"
+      },
+      {
+        "id": "g7",
+        "sender_type": "employee",
+        "text": "Dạ cảm ơn mình ạ, Buddy luôn sẵn sàng hỗ trợ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T10:07:00+07:00"
+      }
+    ]
+  },
+  {
+    "external_id": "hair-average-001",
+    "channel": "pancake",
+    "employee": {
+      "id": "emp_002",
+      "name": "Nhân viên B"
+    },
+    "metadata": {
+      "has_complaint": false,
+      "flags": {
+        "incorrect_product_info": false
+      }
+    },
+    "messages": [
+      {
+        "id": "a1",
+        "sender_type": "employee",
+        "text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T11:00:00+07:00"
+      },
+      {
+        "id": "a2",
+        "sender_type": "customer",
+        "text": "Mình muốn nhuộm nâu khói.",
+        "attachments": [],
+        "sent_at": "2026-05-04T11:01:00+07:00"
+      },
+      {
+        "id": "a3",
+        "sender_type": "employee",
+        "text": "Dạ tóc mình từng nhuộm đen chưa ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T11:02:00+07:00"
+      },
+      {
+        "id": "a4",
+        "sender_type": "employee",
+        "text": "Dạ mình gửi ảnh tóc hiện tại giúp Buddy với ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T11:03:00+07:00"
+      },
+      {
+        "id": "a5",
+        "sender_type": "employee",
+        "text": "Dạ nếu nhuộm thì mình dùng mã màu 7.1 với oxy 9 ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T11:04:00+07:00"
+      },
+      {
+        "id": "a6",
+        "sender_type": "employee",
+        "text": "Dạ cảm ơn mình đã nhắn Buddy ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T11:05:00+07:00"
+      }
+    ]
+  },
+  {
+    "external_id": "hair-blacklist-no-photo-001",
+    "channel": "pancake",
+    "employee": {
+      "id": "emp_002",
+      "name": "Nhân viên B"
+    },
+    "metadata": {
+      "has_complaint": false,
+      "flags": {
+        "incorrect_product_info": false
+      }
+    },
+    "messages": [
+      {
+        "id": "b1",
+        "sender_type": "employee",
+        "text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T12:00:00+07:00"
+      },
+      {
+        "id": "b2",
+        "sender_type": "customer",
+        "text": "Mình muốn nhuộm xám khói.",
+        "attachments": [],
+        "sent_at": "2026-05-04T12:01:00+07:00"
+      },
+      {
+        "id": "b3",
+        "sender_type": "employee",
+        "text": "Dạ với tóc của mình thì mã màu 9.11 và oxy 9 sẽ hợp, thời gian ủ 40 phút là được ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T12:02:00+07:00"
+      },
+      {
+        "id": "b4",
+        "sender_type": "customer",
+        "text": "Nhưng tóc mình đang nhuộm đen thì sao?",
+        "attachments": [],
+        "sent_at": "2026-05-04T12:03:00+07:00"
+      }
+    ]
+  },
+  {
+    "external_id": "hair-complaint-pass-001",
+    "channel": "pancake",
+    "employee": {
+      "id": "emp_003",
+      "name": "Nhân viên C"
+    },
+    "metadata": {
+      "has_complaint": true,
+      "flags": {
+        "incorrect_product_info": false
+      }
+    },
+    "messages": [
+      {
+        "id": "c1",
+        "sender_type": "employee",
+        "text": "Dạ chào bạn, Buddy có thể hỗ trợ gì cho mình ạ?",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:00:00+07:00"
+      },
+      {
+        "id": "c2",
+        "sender_type": "customer",
+        "text": "Mình không hài lòng vì màu lên bị lệch nhiều.",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:01:00+07:00"
+      },
+      {
+        "id": "c3",
+        "sender_type": "employee",
+        "text": "Dạ em xin lỗi mình vì trải nghiệm chưa tốt ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:02:00+07:00"
+      },
+      {
+        "id": "c4",
+        "sender_type": "employee",
+        "text": "Dạ mình gửi ảnh tóc hiện tại và ảnh thực tế sau nhuộm giúp em với ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:03:00+07:00"
+      },
+      {
+        "id": "c5",
+        "sender_type": "employee",
+        "text": "Dạ em kiểm tra nguyên nhân thì nền tóc cũ còn tối nên màu chưa lên đều ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:05:00+07:00"
+      },
+      {
+        "id": "c6",
+        "sender_type": "employee",
+        "text": "Dạ giải pháp là Buddy hỗ trợ lại công thức điều chỉnh màu và hướng dẫn mình xử lý lại ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:06:00+07:00"
+      },
+      {
+        "id": "c7",
+        "sender_type": "employee",
+        "text": "Dạ cảm ơn mình đã phản hồi để Buddy hỗ trợ tốt hơn ạ.",
+        "attachments": [],
+        "sent_at": "2026-05-04T13:07:00+07:00"
+      }
+    ]
+  }
+]

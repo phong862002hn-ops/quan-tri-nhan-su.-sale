@@ -1,0 +1,8 @@
+{
+  "blacklist_per_week": 2,
+  "blacklist_per_month": 4,
+  "low_score_threshold": 50.0,
+  "low_score_streak": 3,
+  "avg_score_below": 60.0,
+  "min_conversations": 2
+}
