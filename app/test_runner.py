@@ -6,7 +6,6 @@ import sys
 from pathlib import Path
 
 from app.evaluator import evaluate_conversation
-from app.history import save_evaluation_results
 from app.schemas import load_conversations, load_ruleset
 
 
@@ -51,7 +50,6 @@ def main() -> None:
     parser.add_argument("--json", action="store_true", help="Output JSON instead of text.")
     parser.add_argument("--rules", default=str(RULESET_PATH), help="Path to rules.json.")
     parser.add_argument("--input", default=str(CONVERSATIONS_PATH), help="Path to sample conversations JSON.")
-    parser.add_argument("--no-save", action="store_true", help="Không lưu kết quả vào lịch sử.")
     args = parser.parse_args()
 
     ruleset = load_ruleset(args.rules)
@@ -64,12 +62,6 @@ def main() -> None:
         raise SystemExit("Khong tim thay hoi thoai nao de cham.")
 
     outputs = [evaluate_conversation(conversation, ruleset).to_dict() for conversation in conversations]
-
-    if not args.no_save and not args.conversation_id:
-        saved_path = save_evaluation_results(outputs, conversations)
-        if not args.json:
-            print(f"[history] Lưu kết quả vào {saved_path.relative_to(BASE_DIR)}\n")
-
     if args.json:
         print(json.dumps(outputs[0] if len(outputs) == 1 else outputs, ensure_ascii=False, indent=2))
         return

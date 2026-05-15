@@ -99,7 +99,15 @@
           "applies_to": "employee",
           "severity": "high",
           "config": {
-            "keywords": ["gửi ảnh tóc hiện tại", "gửi ảnh tóc", "ảnh tóc hiện tại"],
+            "keywords": [
+              "gửi ảnh tóc hiện tại",
+              "gửi ảnh tóc",
+              "ảnh tóc hiện tại",
+              "chụp tóc qua cam",
+              "chụp tóc qua cam thường",
+              "chụp tóc rõ nền tóc hiện tại",
+              "gửi ảnh qua cam thường"
+            ],
             "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
           }
         },
@@ -303,7 +311,15 @@
       "applies_to": "employee",
       "severity": "critical",
       "config": {
-        "required_keywords": ["ảnh tóc", "gửi ảnh tóc", "ảnh hiện tại"],
+        "required_keywords": [
+          "ảnh tóc",
+          "gửi ảnh tóc",
+          "ảnh hiện tại",
+          "chụp tóc qua cam",
+          "chụp tóc qua cam thường",
+          "gửi ảnh qua cam thường",
+          "chụp tóc rõ nền tóc hiện tại"
+        ],
         "advice_keywords": ["mã màu", "tỉ lệ pha", "thời gian ủ", "lên màu", "oxy"],
         "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
       }

@@ -4,7 +4,6 @@ from collections import defaultdict
 from typing import Any
 
 from app.grading import grade_score
-from app.history import build_employee_trend, load_all_history
 from app.training import RULE_SKILL_MAP, map_findings_to_skill_gaps, recommend_training_for_employee
 
 
@@ -90,91 +89,5 @@ def build_employee_scorecards(
                 "training_recommendations": training_recommendations,
             }
         )
-
-    return sorted(scorecards, key=lambda item: (item["average_score"], item["employee_name"]))
-
-
-def build_employee_scorecards_from_history() -> list[dict[str, Any]]:
-    """Build scorecards từ toàn bộ lịch sử đã lưu (không cần truyền conversations)."""
-    from pathlib import Path
-    import json
-
-    BASE_DIR = Path(__file__).resolve().parent.parent
-    TRAINING_PATH = BASE_DIR / "data" / "training_modules.json"
-    from app.training import load_training_modules
-    training_modules = load_training_modules(TRAINING_PATH)
-
-    history = load_all_history()
-    if not history:
-        return []
-
-    grouped_results: dict[str, list[dict[str, Any]]] = defaultdict(list)
-    employee_info: dict[str, dict[str, str]] = {}
-
-    for entry in history:
-        emp = entry.get("employee")
-        if not emp:
-            continue
-        emp_id = emp["id"]
-        employee_info[emp_id] = emp
-        grouped_results[emp_id].append(entry["evaluation"])
-
-    scorecards = []
-    for employee_id, results in grouped_results.items():
-        total_score = sum(float(r["total_score"]) for r in results)
-        conversation_count = len(results)
-        average_score = round(total_score / conversation_count, 2) if conversation_count else 0.0
-        passed_rate = round(sum(1 for r in results if r["passed"]) / conversation_count, 2) if conversation_count else 0.0
-        blacklist_count = sum(1 for r in results if r["blacklist_triggered"])
-
-        skill_samples: dict[str, list[float]] = defaultdict(list)
-        failed_skill_counts: dict[str, int] = defaultdict(int)
-
-        for result in results:
-            for finding in result.get("findings", []):
-                skill = RULE_SKILL_MAP.get(finding["rule_id"])
-                if not skill:
-                    continue
-                if float(finding["max_score"]) > 0:
-                    ratio = (float(finding["score"]) / float(finding["max_score"])) * 100
-                    skill_samples[skill].append(round(ratio, 2))
-                if not finding["passed"]:
-                    failed_skill_counts[skill] += 1
-            for finding in result.get("blacklist_findings", []):
-                skill = RULE_SKILL_MAP.get(finding["rule_id"])
-                if not skill:
-                    continue
-                failed_skill_counts[skill] += 1
-                skill_samples[skill].append(0.0)
-
-        skill_scores = {
-            skill: round(sum(samples) / len(samples), 2)
-            for skill, samples in skill_samples.items()
-            if samples
-        }
-        top_failed_skills = [
-            {"skill": skill, "failed_count": count}
-            for skill, count in sorted(failed_skill_counts.items(), key=lambda item: (-item[1], item[0]))
-            if count > 0
-        ]
-
-        trend = build_employee_trend(
-            [e for e in history if e.get("employee", {}).get("id") == employee_id]
-        )
-
-        training_recommendations = recommend_training_for_employee(results, training_modules)
-        scorecards.append({
-            "employee_id": employee_info[employee_id]["id"],
-            "employee_name": employee_info[employee_id].get("name", employee_id),
-            "conversation_count": conversation_count,
-            "average_score": average_score,
-            "grade": grade_score(average_score, False),
-            "passed_rate": passed_rate,
-            "blacklist_count": blacklist_count,
-            "skill_scores": skill_scores,
-            "top_failed_skills": top_failed_skills,
-            "training_recommendations": training_recommendations,
-            "trend": trend.get(employee_id, []),
-        })
 
     return sorted(scorecards, key=lambda item: (item["average_score"], item["employee_name"]))

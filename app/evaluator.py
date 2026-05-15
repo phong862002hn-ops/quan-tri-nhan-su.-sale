@@ -4,7 +4,6 @@ from pathlib import Path
 from typing import Any
 
 from app.grading import grade_score
-from app.response_time import compute_response_times
 from app.rule_engine import evaluate_rule
 from app.schemas import CategoryScore, Conversation, EvaluationResult, Ruleset, load_ruleset
 
@@ -52,7 +51,6 @@ def evaluate_conversation(
 
     grade = grade_score(total_score, blacklist_triggered)
     passed = (not blacklist_triggered) and total_score >= 75
-    response_time = compute_response_times(conversation)
 
     return EvaluationResult(
         conversation_id=conversation.external_id,
@@ -64,8 +62,6 @@ def evaluate_conversation(
         category_scores=category_scores,
         findings=findings,
         blacklist_findings=blacklist_failed,
-        response_time=response_time,
-        ruleset_version=active_ruleset.version,
     )
 
 

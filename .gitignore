@@ -1,36 +1,13 @@
-# Python
 __pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-build/
-dist/
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-
-# Environments
-.venv/
-venv/
-env/
-.env
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Server PIDs
+*.pyc
 .server.pid
 .viewer.pid
-
-# Local runtime data — bỏ comment nếu không muốn commit lịch sử & reviews
-# data/history/
-# data/reviews/
-# data/rules_history/
+.pytest_cache/
+data/nhanh_config.local.json
+.cloudflared.err.log
+.cloudflared.out.log
+.cloudflared.pid
+viewer.err.log
+viewer.log
+viewer.out.log
+exports/

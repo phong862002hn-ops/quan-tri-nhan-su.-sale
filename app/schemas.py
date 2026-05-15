@@ -176,8 +176,6 @@ class EvaluationResult:
     category_scores: list[CategoryScore]
     findings: list[Finding]
     blacklist_findings: list[Finding]
-    response_time: dict[str, Any] = field(default_factory=dict)
-    ruleset_version: str = "unknown"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -190,31 +188,7 @@ class EvaluationResult:
             "category_scores": [item.to_dict() for item in self.category_scores],
             "findings": [item.to_dict() for item in self.findings],
             "blacklist_findings": [item.to_dict() for item in self.blacklist_findings],
-            "response_time": self.response_time,
-            "ruleset_version": self.ruleset_version,
         }
-
-
-@dataclass
-class ReviewNote:
-    conversation_id: str
-    reviewer: str
-    note: str
-    score_override: float | None
-    reviewed_at: str
-
-    def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
-
-    @classmethod
-    def from_dict(cls, data: dict[str, Any]) -> "ReviewNote":
-        return cls(
-            conversation_id=str(data["conversation_id"]),
-            reviewer=str(data.get("reviewer", "QA")),
-            note=str(data.get("note", "")),
-            score_override=float(data["score_override"]) if data.get("score_override") is not None else None,
-            reviewed_at=str(data.get("reviewed_at", "")),
-        )
 
 
 def load_ruleset(path: str | Path) -> Ruleset:

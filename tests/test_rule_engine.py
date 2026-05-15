@@ -1,7 +1,12 @@
 import unittest
+from pathlib import Path
 
 from app.rule_engine import evaluate_rule
-from app.schemas import Conversation, Rule
+from app.schemas import Conversation, Rule, load_ruleset
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+RULESET_PATH = BASE_DIR / "data" / "rules.json"
 
 
 def build_conversation(messages, metadata=None) -> Conversation:
@@ -16,6 +21,10 @@ def build_conversation(messages, metadata=None) -> Conversation:
 
 
 class RuleEngineTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.ruleset = load_ruleset(RULESET_PATH)
+
     def test_keyword_any_pass(self) -> None:
         conversation = build_conversation(
             [{"id": "m1", "sender_type": "employee", "text": "Dạ chào bạn, Buddy có thể hỗ trợ gì ạ?", "attachments": []}]
@@ -120,6 +129,66 @@ class RuleEngineTests(unittest.TestCase):
             }
         )
         self.assertFalse(evaluate_rule(conversation, rule).passed)
+
+    def test_photo_request_via_cam_phrase_should_not_trigger_false_blacklist(self) -> None:
+        conversation = build_conversation(
+            [
+                {
+                    "id": "m1",
+                    "sender_type": "employee",
+                    "text": "Dạ bạn chụp tóc qua cam thường rõ độ dài và nền tóc hiện tại để Buddy tư vấn kĩ hơn và xác định lượng thuốc bạn cần nha",
+                    "attachments": [],
+                },
+                {
+                    "id": "m2",
+                    "sender_type": "customer",
+                    "text": "nền cũng hơi sáng xíu ạ",
+                    "attachments": [{"type": "image", "url": "https://example.com/hair.jpg"}],
+                },
+                {
+                    "id": "m3",
+                    "sender_type": "employee",
+                    "text": "Dạ nền cậu không quá sáng thì lên màu không sáng đâu nha, nếu lên nâu lạnh thì cần oxy 9 ạ.",
+                    "attachments": [],
+                },
+            ]
+        )
+        request_rule = next(
+            rule
+            for category in self.ruleset.categories
+            for rule in category.rules
+            if rule.id == "request_current_hair_photo"
+        )
+        blacklist_rule = next(rule for rule in self.ruleset.blacklist if rule.id == "no_current_hair_photo")
+        self.assertTrue(evaluate_rule(conversation, request_rule).passed)
+        self.assertTrue(evaluate_rule(conversation, blacklist_rule).passed)
+
+    def test_customer_sent_image_before_advice_should_count_as_photo_available(self) -> None:
+        conversation = build_conversation(
+            [
+                {
+                    "id": "m1",
+                    "sender_type": "customer",
+                    "text": "",
+                    "attachments": [{"type": "image", "url": "https://example.com/hair-2.jpg"}],
+                },
+                {
+                    "id": "m2",
+                    "sender_type": "employee",
+                    "text": "Dạ nền mình nhuộm nâu khói sáng sẽ không lên màu chuẩn ạ, nếu lên thì cần oxy 9 ạ.",
+                    "attachments": [],
+                },
+            ]
+        )
+        request_rule = next(
+            rule
+            for category in self.ruleset.categories
+            for rule in category.rules
+            if rule.id == "request_current_hair_photo"
+        )
+        blacklist_rule = next(rule for rule in self.ruleset.blacklist if rule.id == "no_current_hair_photo")
+        self.assertTrue(evaluate_rule(conversation, request_rule).passed)
+        self.assertTrue(evaluate_rule(conversation, blacklist_rule).passed)
 
     def test_complaint_flow_pass(self) -> None:
         conversation = build_conversation(

@@ -40,6 +40,19 @@ def combine_text(messages: Iterable[Message]) -> str:
     return "\n".join(message.text for message in messages)
 
 
+def message_has_attachment_type(message: Message, attachment_type: str) -> bool:
+    expected = attachment_type.lower()
+    return any((attachment.type or "").lower() == expected for attachment in message.attachments)
+
+
+def find_customer_image_messages(conversation: Conversation) -> list[Message]:
+    return [
+        message
+        for message in conversation.messages
+        if message.sender_type == "customer" and message_has_attachment_type(message, "image")
+    ]
+
+
 def build_finding(
     rule: Rule,
     passed: bool,
@@ -75,6 +88,18 @@ def evaluate_keyword_any(conversation: Conversation, rule: Rule) -> Finding:
         for message in messages
         if any(keyword_in_text(message.text, keyword) for keyword in rule.config["keywords"])
     ]
+    # Some rules are satisfied if the customer has already provided the required evidence,
+    # even when the employee did not explicitly type the expected phrase.
+    if rule.id == "request_current_hair_photo" and not matched:
+        customer_images = find_customer_image_messages(conversation)
+        if customer_images:
+            return build_finding(
+                rule,
+                True,
+                customer_images,
+                "Khách đã gửi ảnh tóc thực tế trong hội thoại.",
+                evidence_text="Customer image received before/within consultation flow.",
+            )
     return build_finding(
         rule,
         bool(matched),
@@ -279,19 +304,26 @@ def evaluate_complaint_flow(conversation: Conversation, rule: Rule) -> Finding:
 
 
 def evaluate_missing_required_before_advice(conversation: Conversation, rule: Rule) -> Finding:
-    messages = get_messages_for_scope(conversation, rule.applies_to)
     required_keywords = rule.config["required_keywords"]
     advice_keywords = rule.config["advice_keywords"]
     first_required_index: int | None = None
     first_advice_message: Message | None = None
+    customer_image_indexes = {
+        index
+        for index, message in enumerate(conversation.messages)
+        if message.sender_type == "customer" and message_has_attachment_type(message, "image")
+    }
 
-    for index, message in enumerate(messages):
+    for index, message in enumerate(conversation.messages):
+        if message.sender_type != rule.applies_to:
+            continue
         if first_required_index is None and any(keyword_in_text(message.text, keyword) for keyword in required_keywords):
             first_required_index = index
         if first_advice_message is None and any(keyword_in_text(message.text, keyword) for keyword in advice_keywords):
             first_advice_message = message
             first_advice_index = index
-            if first_required_index is None or first_required_index > first_advice_index:
+            customer_image_before_advice = any(image_index < first_advice_index for image_index in customer_image_indexes)
+            if (first_required_index is None or first_required_index > first_advice_index) and not customer_image_before_advice:
                 return build_finding(
                     rule,
                     False,
@@ -301,7 +333,12 @@ def evaluate_missing_required_before_advice(conversation: Conversation, rule: Ru
                     evidence_text=message.text,
                 )
 
-    return build_finding(rule, True, [first_advice_message] if first_advice_message else [], "Không phát hiện tư vấn hời hợt.")
+    return build_finding(
+        rule,
+        True,
+        [first_advice_message] if first_advice_message else [],
+        "Không phát hiện tư vấn hời hợt.",
+    )
 
 
 def evaluate_metadata_flag(conversation: Conversation, rule: Rule) -> Finding:
