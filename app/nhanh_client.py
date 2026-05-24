@@ -2,12 +2,14 @@ from __future__ import annotations
 
 import argparse
 import json
-import ssl
 import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-from urllib import error, parse, request
+from urllib import parse
+
+import requests
+from requests.adapters import HTTPAdapter
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ class NhanhConfig:
     access_token: str
     secret_key: str = ""
     service: str = "vpage"
-    verify_ssl: bool = False
+    verify_ssl: bool = True
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "NhanhConfig":
@@ -35,7 +37,7 @@ class NhanhConfig:
             access_token=str(data["access_token"]),
             secret_key=str(data.get("secret_key", "")),
             service=str(data.get("service", "vpage")),
-            verify_ssl=bool(data.get("verify_ssl", False)),
+            verify_ssl=bool(data.get("verify_ssl", True)),
         )
 
 
@@ -50,22 +52,68 @@ def build_service_url(config: NhanhConfig, api_path: str) -> str:
     return f"https://{config.service}.open.nhanh.vn/v3.0/{api_path}?{query}"
 
 
-def post_json(url: str, payload: dict[str, Any], access_token: str, verify_ssl: bool = True) -> dict[str, Any]:
-    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+_session: requests.Session | None = None
+
+
+def _get_session() -> requests.Session:
+    global _session
+    if _session is None:
+        session = requests.Session()
+        adapter = HTTPAdapter(pool_connections=10, pool_maxsize=20)
+        session.mount("https://", adapter)
+        session.mount("http://", adapter)
+        _session = session
+    return _session
+
+
+DEFAULT_TIMEOUT_S = 60
+RETRY_DELAYS_S = (2, 5)  # transient timeouts → retry twice with backoff
+
+
+def post_json(
+    url: str,
+    payload: dict[str, Any],
+    access_token: str,
+    verify_ssl: bool = True,
+    timeout_s: int = DEFAULT_TIMEOUT_S,
+) -> dict[str, Any]:
     headers = {
         "Authorization": access_token,
         "Content-Type": "application/json",
     }
-    req = request.Request(url, data=body, headers=headers, method="POST")
-    context = None if verify_ssl else ssl._create_unverified_context()
-    try:
-        with request.urlopen(req, timeout=30, context=context) as response:
-            return json.loads(response.read().decode("utf-8"))
-    except error.HTTPError as exc:
-        content = exc.read().decode("utf-8", errors="replace")
-        raise NhanhClientError(f"Nhanh API HTTP {exc.code}: {content}") from exc
-    except error.URLError as exc:
-        raise NhanhClientError(f"Khong ket noi duoc Nhanh API: {exc}") from exc
+    if not verify_ssl:
+        print("[nhanh_client] WARNING: SSL verification disabled — request not protected against MITM.", file=sys.stderr)
+
+    body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
+    last_transient: Exception | None = None
+    # Initial attempt + retries on transient timeouts only. HTTP errors and
+    # non-timeout connection errors fail fast — they won't get better by trying
+    # again immediately.
+    for attempt, delay in enumerate((0,) + RETRY_DELAYS_S):
+        if delay:
+            import time as _time
+            _time.sleep(delay)
+        try:
+            response = _get_session().post(
+                url, data=body, headers=headers, timeout=timeout_s, verify=verify_ssl,
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.HTTPError as exc:
+            status = exc.response.status_code if exc.response is not None else "?"
+            text = exc.response.text if exc.response is not None else ""
+            raise NhanhClientError(f"Nhanh API HTTP {status}: {text}") from exc
+        except (requests.Timeout, requests.ConnectionError) as exc:
+            last_transient = exc
+            if attempt == len(RETRY_DELAYS_S):
+                break
+            continue
+        except requests.RequestException as exc:
+            raise NhanhClientError(f"Khong ket noi duoc Nhanh API: {exc}") from exc
+
+    raise NhanhClientError(
+        f"Nhanh API timeout sau {len(RETRY_DELAYS_S) + 1} lan thu: {last_transient}"
+    ) from last_transient
 
 
 def check_access_token(config: NhanhConfig) -> dict[str, Any]:

@@ -16,10 +16,13 @@ Local scoring engine để chấm chất lượng hội thoại sale/CSKH theo b
 
 ```txt
 README.md
+requirements.txt
 data/
   rules.json
   sample_conversations.json
   training_modules.json
+  nhanh_config.example.json
+  nhanh_cache.db          (sinh ra runtime, gitignored)
 app/
   __init__.py
   schemas.py
@@ -30,13 +33,34 @@ app/
   viewer.py
   training.py
   employee_scorecard.py
+  nhanh_client.py
+  nhanh_adapter.py
+  cache_db.py             (SQLite cache layer)
+  sync_worker.py          (LightSyncWorker + HeavySyncWorker)
+  sla_monitor.py          (SLA violation detection)
+  business_hours.py       (business minutes calculator)
 tests/
   test_evaluator.py
   test_grading.py
   test_rule_engine.py
   test_training.py
   test_employee_scorecard.py
+  test_cache_db.py
+  test_sync_worker.py
+  test_business_hours.py
+  test_sla_monitor.py
 ```
+
+## Environment variables
+
+| Variable | Default | Effect |
+|---|---|---|
+| `NHANH_LIGHT_SYNC_MINUTES` | `10` | Light worker cadence |
+| `NHANH_HEAVY_SYNC_HOURS` | `4` | Heavy worker cadence |
+| `QA_IDLE_THRESHOLD_HOURS` | `24` | How long a conv must be idle before the grading guard accepts it |
+| `QA_SLA_THRESHOLD_MINUTES` | `60` | SLA business minutes before alert. Recommend `180` (3h) during the first deploy week to observe pattern, then drop to `60`. |
+| `QA_BUSINESS_HOUR_START` | `8` | First hour of the SLA window (inclusive) |
+| `QA_BUSINESS_HOUR_END` | `23` | First hour outside the SLA window (exclusive) |
 
 ## Thành phần chính
 
@@ -45,6 +69,58 @@ tests/
 - `app/training.py`: map failed findings sang skill gap và gợi ý training.
 - `app/employee_scorecard.py`: gom nhiều evaluation để tạo scorecard theo nhân viên.
 - `app/viewer.py`: local dashboard để xem trực quan case, scorecard và training recommendation.
+- `app/cache_db.py` + `app/sync_worker.py`: cache hội thoại Nhanh trong SQLite + worker đồng bộ nền (xem "Caching architecture" bên dưới).
+
+## Cài đặt
+
+```bash
+pip install -r requirements.txt
+python -m app.viewer
+# Mở http://127.0.0.1:8080/dashboard
+```
+
+## Kiến trúc Sync 2 tốc độ
+
+Lần đầu mở dashboard không còn gọi sang Nhanh API trực tiếp (cũ ~45 giây/request). Thay vào đó có **2 background sync worker** chạy song song:
+
+| Worker | Cadence | Mục đích |
+|---|---|---|
+| **Light** (`LightSyncWorker`) | **10 phút** (env `NHANH_LIGHT_SYNC_MINUTES`) | 1 call `list_conversations` ở top, chỉ fetch messages cho conv có `updatedAt` đổi. Chạy SLA detection + grading guard cho conv đó. Trễ tối đa 10 phút để phát hiện tin mới. |
+| **Heavy** (`HeavySyncWorker`) | **4 giờ** (env `NHANH_HEAVY_SYNC_HOURS`) | Full crawl per-pageId để không sót conv. Backfill 7 ngày khi DB trống. |
+
+- Cả 2 worker viết vào cùng `data/nhanh_cache.db` (SQLite + WAL mode).
+- **Dashboard 100% đọc từ DB** → response <200ms với 1000+ conversations, kể cả khi 5+ user truy cập đồng thời.
+- **Lần đầu khởi động** (DB trống): heavy worker tự backfill ngay, banner hiển thị progress (X/Y), JS auto-poll `/api/sync-status` mỗi 5s rồi reload khi xong.
+- **Click chi tiết 1 conversation** (`?live_conversation_id=...`) → refresh live cho riêng conv đó (stale-while-revalidate). Fail → fallback cache.
+- **Nút "Đồng bộ ngay"** trên banner → POST `/api/refresh` trigger CẢ light lẫn heavy ngoài lịch. Trùng → reject với `{ok: false, reason: "sync_in_progress"}`.
+- **Đổi `data/rules.json`** → `ruleset_version` hash đổi → conv được re-evaluate trong tick kế tiếp.
+
+Nhanh **không có webhook cho conversation/message** ([apidocs.nhanh.vn](https://apidocs.nhanh.vn/v3/webhooks/webhooks) chỉ có order/product/inventory) → polling là bắt buộc.
+
+## Guard chấm điểm (Grading guard)
+
+Hội thoại chỉ được chấm khi **(1)** idle ≥ 24h kể từ tin cuối VÀ **(2)** tin cuối là từ khách. Lý do:
+
+- **Idle < 24h** = hội thoại còn đang diễn ra, chưa kết thúc → chấm sớm sẽ oan cho sale.
+- **Tin cuối từ sale** = sale đã làm phần của mình, khách không quay lại → coi như hoàn tất, không cần chấm.
+- Chỉ khi **khách nhắn xong, sale có cơ hội phản hồi, và conv im 24h+** thì mới đủ điều kiện đánh giá.
+
+Threshold idle override: `QA_IDLE_THRESHOLD_HOURS=12` cho môi trường test. Hàm `is_conversation_ready_for_grading` trong [app/evaluator.py](app/evaluator.py).
+
+## SLA monitoring (Real-time alert)
+
+- Khi tin cuối của conv là từ khách (chuỗi customer message chưa được reply), worker tính **business minutes** trôi qua trong giờ làm việc.
+- Nếu `business_minutes > QA_SLA_THRESHOLD_MINUTES` (default 60) → flag vi phạm vào bảng `sla_violations`.
+- Tab **🔴 Alert SLA** trên dashboard hiển thị tất cả vi phạm `status='open'`. Sale reply → light worker tick kế tiếp tự `resolve` violation.
+- **Giờ làm việc** mặc định **8h-23h** (VN tz), override `QA_BUSINESS_HOUR_START` / `QA_BUSINESS_HOUR_END`.
+- Edge case: khách nhắn ngoài giờ làm → SLA bắt đầu tính từ 8h sáng hôm sau. Khách nhắn 22:50 → SLA chỉ tính 22:50-23:00 (10') + tiếp tục từ 8:00 sáng hôm sau.
+- Logic chi tiết: [app/sla_monitor.py](app/sla_monitor.py), business hour math: [app/business_hours.py](app/business_hours.py).
+
+## 3 tabs dashboard
+
+- 🟡 **Đang diễn ra** — conv chưa qua guard (idle < 24h hoặc tin cuối từ sale). KHÔNG có điểm.
+- ✅ **Đã chấm** — conv đã pass guard và có evaluation. Có scorecard.
+- 🔴 **Alert SLA** — vi phạm SLA đang `open`. Click "Xem & Phản hồi" mở conv chi tiết.
 
 ## Bảng điểm
 

@@ -11,3 +11,10 @@ viewer.err.log
 viewer.log
 viewer.out.log
 exports/
+data/nhanh_cache.db
+data/nhanh_cache.db-wal
+data/nhanh_cache.db-shm
+data/rules.json.backup.*
+CLAUDE_BUNDLE.md
+.DS_Store
+**/.DS_Store

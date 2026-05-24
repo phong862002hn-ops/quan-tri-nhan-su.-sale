@@ -3,14 +3,21 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
+import copy
+import hashlib
 import json
 
 
 @dataclass
 class Attachment:
+    """Cross-channel attachment. `metadata` carries channel-specific data
+    (Shopee product_card, TikTok video_clip, Instagram story_reply, ...).
+    """
+
     type: str
     name: str | None = None
     url: str | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Attachment":
@@ -18,7 +25,14 @@ class Attachment:
             type=str(data.get("type", "")),
             name=data.get("name"),
             url=data.get("url"),
+            metadata=data.get("metadata") or {},
         )
+
+    def to_dict(self) -> dict[str, Any]:
+        result: dict[str, Any] = {"type": self.type, "name": self.name, "url": self.url}
+        if self.metadata:
+            result["metadata"] = self.metadata
+        return result
 
 
 @dataclass
@@ -89,6 +103,7 @@ class Rule:
     applies_to: str = "employee"
     severity: str = "medium"
     config: dict[str, Any] = field(default_factory=dict)
+    rationale: str = ""
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Rule":
@@ -100,7 +115,20 @@ class Rule:
             applies_to=str(data.get("applies_to", "employee")),
             severity=str(data.get("severity", "medium")),
             config=data.get("config", {}) or {},
+            rationale=str(data.get("rationale", "")),
         )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "max_score": self.max_score,
+            "type": self.type,
+            "applies_to": self.applies_to,
+            "severity": self.severity,
+            "config": copy.deepcopy(self.config),
+            "rationale": self.rationale,
+        }
 
 
 @dataclass
@@ -119,6 +147,14 @@ class RuleCategory:
             rules=[Rule.from_dict(item) for item in data.get("rules", [])],
         )
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "max_score": self.max_score,
+            "rules": [rule.to_dict() for rule in self.rules],
+        }
+
 
 @dataclass
 class Ruleset:
@@ -136,6 +172,18 @@ class Ruleset:
             blacklist=[Rule.from_dict(item) for item in data.get("blacklist", [])],
         )
 
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "version": self.version,
+            "max_score": self.max_score,
+            "categories": [cat.to_dict() for cat in self.categories],
+            "blacklist": [rule.to_dict() for rule in self.blacklist],
+        }
+
+    def compute_version(self) -> str:
+        serialized = json.dumps(self.to_dict(), sort_keys=True, ensure_ascii=False)
+        return hashlib.sha256(serialized.encode("utf-8")).hexdigest()[:12]
+
 
 @dataclass
 class Finding:
@@ -149,6 +197,12 @@ class Finding:
     evidence_text: str | None
     explanation: str
     suggestion: str | None = None
+    rationale: str = ""
+    # When a rule does not apply to a conversation (channel filter, or
+    # conditional_keyword whose trigger never fired) the finding is reported
+    # with `skipped=True` and `max_score=0` so it does not consume room in
+    # the conversation's effective_max_score.
+    skipped: bool = False
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -176,6 +230,7 @@ class EvaluationResult:
     category_scores: list[CategoryScore]
     findings: list[Finding]
     blacklist_findings: list[Finding]
+    rules_version: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -185,6 +240,7 @@ class EvaluationResult:
             "grade": self.grade,
             "passed": self.passed,
             "blacklist_triggered": self.blacklist_triggered,
+            "rules_version": self.rules_version,
             "category_scores": [item.to_dict() for item in self.category_scores],
             "findings": [item.to_dict() for item in self.findings],
             "blacklist_findings": [item.to_dict() for item in self.blacklist_findings],

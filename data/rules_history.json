@@ -1,0 +1,4111 @@
+{
+  "versions": [
+    {
+      "version": "7fac355dbb0d",
+      "created_at": "2026-05-18T15:06:01+07:00",
+      "ruleset_snapshot": {
+        "version": "1.1.0",
+        "max_score": 100.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                }
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "cảm ơn",
+                    "chúc",
+                    "sẵn sàng hỗ trợ"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn hoặc lời chúc."
+                }
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                }
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                }
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                }
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 5.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                }
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                }
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 10.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                }
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 5.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                }
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "tỉ lệ",
+                    "chải",
+                    "thời gian ủ"
+                  ],
+                  "fail_suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+                }
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 6.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 2,
+                  "fail_suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                }
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "oxy"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+                }
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+                }
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+                }
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                }
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                }
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                }
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            }
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            }
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            }
+          },
+          {
+            "id": "no_current_hair_photo",
+            "name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+            "max_score": 0.0,
+            "type": "missing_required_before_advice",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "required_keywords": [
+                "ảnh tóc",
+                "gửi ảnh tóc",
+                "ảnh hiện tại",
+                "chụp tóc qua cam",
+                "chụp tóc qua cam thường",
+                "gửi ảnh qua cam thường",
+                "chụp tóc rõ nền tóc hiện tại"
+              ],
+              "advice_keywords": [
+                "mã màu",
+                "tỉ lệ pha",
+                "thời gian ủ",
+                "lên màu",
+                "oxy"
+              ],
+              "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "version": "f441d2e0d93f",
+      "created_at": "2026-05-18T15:14:13+07:00",
+      "ruleset_snapshot": {
+        "version": "1.2.0",
+        "max_score": 105.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                }
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "cảm ơn",
+                    "chúc",
+                    "sẵn sàng hỗ trợ"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn hoặc lời chúc."
+                }
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                }
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                }
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                }
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 5.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                }
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                }
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 10.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                }
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 5.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                }
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "tỉ lệ",
+                    "chải",
+                    "thời gian ủ"
+                  ],
+                  "fail_suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+                }
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                }
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 6.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 2,
+                  "fail_suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                }
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "oxy"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+                }
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+                }
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+                }
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                }
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                }
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                }
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            }
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            }
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            }
+          },
+          {
+            "id": "no_current_hair_photo",
+            "name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+            "max_score": 0.0,
+            "type": "missing_required_before_advice",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "required_keywords": [
+                "ảnh tóc",
+                "gửi ảnh tóc",
+                "ảnh hiện tại",
+                "chụp tóc qua cam",
+                "chụp tóc qua cam thường",
+                "gửi ảnh qua cam thường",
+                "chụp tóc rõ nền tóc hiện tại"
+              ],
+              "advice_keywords": [
+                "mã màu",
+                "tỉ lệ pha",
+                "thời gian ủ",
+                "lên màu",
+                "oxy"
+              ],
+              "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+            }
+          }
+        ]
+      }
+    },
+    {
+      "version": "f6bf49e9cade",
+      "created_at": "2026-05-18T15:20:03+07:00",
+      "ruleset_snapshot": {
+        "version": "1.2.0",
+        "max_score": 105.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                },
+                "rationale": "Lời chào mở đầu thiết lập tone chuyên nghiệp và thân thiện ngay từ tin nhắn đầu — khách cảm thấy được đón tiếp, không bị bỏ mặc."
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "cảm ơn",
+                    "chúc",
+                    "sẵn sàng hỗ trợ"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn hoặc lời chúc."
+                },
+                "rationale": "Lời chào kết giữ ấn tượng cuối tốt, tạo cảm giác khách được chăm sóc trọn vẹn và mở đường cho lần mua tiếp theo."
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                },
+                "rationale": "Cách xưng hô lịch sự (dạ/ạ/mình) là chuẩn giao tiếp của shop — thiếu sẽ làm khách cảm thấy bị lạnh nhạt hoặc thiếu tôn trọng."
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                },
+                "rationale": "Tiếng lóng/teencode không phù hợp môi trường bán hàng chuyên nghiệp, dễ khiến khách lớn tuổi hiểu sai hoặc đánh giá shop thiếu nghiêm túc."
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                },
+                "rationale": "Quá nhiều emoji làm rối tin nhắn, giảm tính chuyên nghiệp và che khuất nội dung tư vấn quan trọng."
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 5.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                },
+                "rationale": "Lịch sử tóc (đã tẩy/nhuộm/duỗi) quyết định công thức an toàn — không hỏi dẫn đến tư vấn sai và rủi ro hỏng tóc khách."
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                },
+                "rationale": "Ảnh tóc thật giúp đánh giá nền tóc và đề xuất công thức chuẩn — tư vấn không có ảnh là tư vấn mù, dễ sai."
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 10.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                },
+                "rationale": "Giải thích quy tắc lên màu (nền tóc, tẩy, oxy) giúp khách hiểu kỳ vọng đúng và không thất vọng sau khi nhuộm."
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 5.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                },
+                "rationale": "Ảnh feedback/màu tham khảo giúp khách hình dung trước kết quả, giảm tranh chãi sau khi nhuộm xong."
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "tỉ lệ",
+                    "chải",
+                    "thời gian ủ"
+                  ],
+                  "fail_suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+                },
+                "rationale": "Hướng dẫn kỹ thuật (tỉ lệ pha, cách chải, thời gian ủ) là cốt lõi để khách tự làm thành công — thiếu là khách dễ thao tác sai."
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                },
+                "rationale": "Báo giá rõ ràng tránh hiểu lầm khi chốt đơn và tạo niềm tin — khách không biết giá là rào cản lớn nhất với quyết định mua."
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 6.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 2,
+                  "fail_suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                },
+                "rationale": "Bước Discovery xác định đúng nhu cầu khách (loại tóc, mong muốn màu) — bỏ qua sẽ tư vấn lệch hướng."
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "oxy"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+                },
+                "rationale": "Bước Solution đưa giải pháp cụ thể phù hợp với nhu cầu khách — không đề xuất giải pháp thì hội thoại vô nghĩa."
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+                },
+                "rationale": "Bước Commitment chốt cam kết của shop (bảo hành, hỗ trợ) — tạo lòng tin để khách quyết định nhanh hơn."
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+                },
+                "rationale": "Bước Close Order chốt thông tin ship/tổng tiền/thanh toán — không chốt rõ ràng dẫn đến đơn rớt hoặc khiếu nại sau giao."
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                },
+                "rationale": "Bước Aftercare nhắn dặn dò sau bán — giảm khiếu nại và tăng khả năng khách quay lại."
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                },
+                "rationale": "Tranh cãi với khách khi có khiếu nại làm tình huống xấu đi và tổn hại thương hiệu — luôn lắng nghe trước, giải quyết sau."
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                },
+                "rationale": "Quy trình xử lý khiếu nại theo bước (xin lỗi → ảnh thực tế → nguyên nhân → giải pháp) đảm bảo khách thấy được lắng nghe và giữ khách lại sau sự cố."
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            },
+            "rationale": "Khách hỏi mà không được trả lời sẽ rời shop và mua chỗ khác — mất doanh thu trực tiếp và uy tín shop."
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            },
+            "rationale": "Tone tiêu cực với khách (lớn tiếng, đổ lỗi) làm đổ vỡ quan hệ ngay lập tức và lan tiếng xấu — đây là vạch đỏ tuyệt đối."
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            },
+            "rationale": "Tư vấn sai thông tin sản phẩm (giá/thành phần/công dụng) dẫn đến mất uy tín và rủi ro pháp lý."
+          },
+          {
+            "id": "no_current_hair_photo",
+            "name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+            "max_score": 0.0,
+            "type": "missing_required_before_advice",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "required_keywords": [
+                "ảnh tóc",
+                "gửi ảnh tóc",
+                "ảnh hiện tại",
+                "chụp tóc qua cam",
+                "chụp tóc qua cam thường",
+                "gửi ảnh qua cam thường",
+                "chụp tóc rõ nền tóc hiện tại"
+              ],
+              "advice_keywords": [
+                "mã màu",
+                "tỉ lệ pha",
+                "thời gian ủ",
+                "lên màu",
+                "oxy"
+              ],
+              "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+            },
+            "rationale": "Tư vấn nhuộm không có ảnh tóc thật là sai quy định shop — dễ tư vấn nhầm công thức gây hỏng tóc, dẫn đến khiếu nại lớn."
+          }
+        ]
+      }
+    },
+    {
+      "version": "81e52bc5cb18",
+      "created_at": "2026-05-18T15:33:17+07:00",
+      "ruleset_snapshot": {
+        "version": "1.2.0",
+        "max_score": 105.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                },
+                "rationale": "Lời chào mở đầu thiết lập tone chuyên nghiệp và thân thiện ngay từ tin nhắn đầu — khách cảm thấy được đón tiếp, không bị bỏ mặc."
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "cảm ơn",
+                    "cám ơn",
+                    "thanks",
+                    "thank you",
+                    "chúc",
+                    "chúc mình",
+                    "chúc anh",
+                    "chúc chị",
+                    "chúc mua sắm",
+                    "chúc một ngày",
+                    "sẵn sàng hỗ trợ",
+                    "shop sẵn sàng",
+                    "dạ vâng",
+                    "vâng ạ",
+                    "dạ ạ",
+                    "dạ nhé",
+                    "dạ ok",
+                    "ok ạ",
+                    "oki ạ",
+                    "okie ạ",
+                    "dạ được",
+                    "được rồi ạ",
+                    "được nhé",
+                    "dạ em nhận",
+                    "shop đã nhận",
+                    "em đã nhận",
+                    "shop nhận đơn",
+                    "em ghi nhận",
+                    "đã ghi nhận",
+                    "đã chốt đơn",
+                    "shop chốt đơn",
+                    "shop gửi hàng",
+                    "shop ship",
+                    "đơn sẽ được",
+                    "hẹn gặp lại",
+                    "hẹn mình",
+                    "mình nhắn em",
+                    "mình nhắn shop",
+                    "shop nhắn",
+                    "shop hỗ trợ",
+                    "em hỗ trợ",
+                    "em hỗ trợ tiếp",
+                    "hỗ trợ thêm",
+                    "khi cần",
+                    "khi nào cần",
+                    "có gì nhắn",
+                    "có gì cứ nhắn",
+                    "có gì hỗ trợ",
+                    "nhắn shop nha",
+                    "nhắn em nha",
+                    "mình nhé",
+                    "ạ nhé",
+                    "mình nha",
+                    "ạ nha",
+                    "em chào mình",
+                    "shop chào",
+                    "em đi pha",
+                    "em chuẩn bị",
+                    "em soạn đơn"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn, lời chúc, lời hẹn gặp lại hoặc câu xác nhận lịch sự (vd: dạ vâng ạ, có gì cứ nhắn shop nhé)."
+                },
+                "rationale": "Lời chào kết giữ ấn tượng cuối tốt, tạo cảm giác khách được chăm sóc trọn vẹn và mở đường cho lần mua tiếp theo."
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                },
+                "rationale": "Cách xưng hô lịch sự (dạ/ạ/mình) là chuẩn giao tiếp của shop — thiếu sẽ làm khách cảm thấy bị lạnh nhạt hoặc thiếu tôn trọng."
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                },
+                "rationale": "Tiếng lóng/teencode không phù hợp môi trường bán hàng chuyên nghiệp, dễ khiến khách lớn tuổi hiểu sai hoặc đánh giá shop thiếu nghiêm túc."
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                },
+                "rationale": "Quá nhiều emoji làm rối tin nhắn, giảm tính chuyên nghiệp và che khuất nội dung tư vấn quan trọng."
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 5.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                },
+                "rationale": "Lịch sử tóc (đã tẩy/nhuộm/duỗi) quyết định công thức an toàn — không hỏi dẫn đến tư vấn sai và rủi ro hỏng tóc khách."
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                },
+                "rationale": "Ảnh tóc thật giúp đánh giá nền tóc và đề xuất công thức chuẩn — tư vấn không có ảnh là tư vấn mù, dễ sai."
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 10.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                },
+                "rationale": "Giải thích quy tắc lên màu (nền tóc, tẩy, oxy) giúp khách hiểu kỳ vọng đúng và không thất vọng sau khi nhuộm."
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 5.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                },
+                "rationale": "Ảnh feedback/màu tham khảo giúp khách hình dung trước kết quả, giảm tranh chãi sau khi nhuộm xong."
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "tỉ lệ",
+                    "chải",
+                    "thời gian ủ"
+                  ],
+                  "fail_suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+                },
+                "rationale": "Hướng dẫn kỹ thuật (tỉ lệ pha, cách chải, thời gian ủ) là cốt lõi để khách tự làm thành công — thiếu là khách dễ thao tác sai."
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                },
+                "rationale": "Báo giá rõ ràng tránh hiểu lầm khi chốt đơn và tạo niềm tin — khách không biết giá là rào cản lớn nhất với quyết định mua."
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 6.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 2,
+                  "fail_suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                },
+                "rationale": "Bước Discovery xác định đúng nhu cầu khách (loại tóc, mong muốn màu) — bỏ qua sẽ tư vấn lệch hướng."
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "oxy"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+                },
+                "rationale": "Bước Solution đưa giải pháp cụ thể phù hợp với nhu cầu khách — không đề xuất giải pháp thì hội thoại vô nghĩa."
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+                },
+                "rationale": "Bước Commitment chốt cam kết của shop (bảo hành, hỗ trợ) — tạo lòng tin để khách quyết định nhanh hơn."
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+                },
+                "rationale": "Bước Close Order chốt thông tin ship/tổng tiền/thanh toán — không chốt rõ ràng dẫn đến đơn rớt hoặc khiếu nại sau giao."
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                },
+                "rationale": "Bước Aftercare nhắn dặn dò sau bán — giảm khiếu nại và tăng khả năng khách quay lại."
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                },
+                "rationale": "Tranh cãi với khách khi có khiếu nại làm tình huống xấu đi và tổn hại thương hiệu — luôn lắng nghe trước, giải quyết sau."
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                },
+                "rationale": "Quy trình xử lý khiếu nại theo bước (xin lỗi → ảnh thực tế → nguyên nhân → giải pháp) đảm bảo khách thấy được lắng nghe và giữ khách lại sau sự cố."
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            },
+            "rationale": "Khách hỏi mà không được trả lời sẽ rời shop và mua chỗ khác — mất doanh thu trực tiếp và uy tín shop."
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            },
+            "rationale": "Tone tiêu cực với khách (lớn tiếng, đổ lỗi) làm đổ vỡ quan hệ ngay lập tức và lan tiếng xấu — đây là vạch đỏ tuyệt đối."
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            },
+            "rationale": "Tư vấn sai thông tin sản phẩm (giá/thành phần/công dụng) dẫn đến mất uy tín và rủi ro pháp lý."
+          },
+          {
+            "id": "no_current_hair_photo",
+            "name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+            "max_score": 0.0,
+            "type": "missing_required_before_advice",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "required_keywords": [
+                "ảnh tóc",
+                "gửi ảnh tóc",
+                "ảnh hiện tại",
+                "chụp tóc qua cam",
+                "chụp tóc qua cam thường",
+                "gửi ảnh qua cam thường",
+                "chụp tóc rõ nền tóc hiện tại"
+              ],
+              "advice_keywords": [
+                "mã màu",
+                "tỉ lệ pha",
+                "thời gian ủ",
+                "lên màu",
+                "oxy"
+              ],
+              "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+            },
+            "rationale": "Tư vấn nhuộm không có ảnh tóc thật là sai quy định shop — dễ tư vấn nhầm công thức gây hỏng tóc, dẫn đến khiếu nại lớn."
+          }
+        ]
+      }
+    },
+    {
+      "version": "62ce6d33beb1",
+      "created_at": "2026-05-18T15:35:19+07:00",
+      "ruleset_snapshot": {
+        "version": "1.2.0",
+        "max_score": 105.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                },
+                "rationale": "Lời chào mở đầu thiết lập tone chuyên nghiệp và thân thiện ngay từ tin nhắn đầu — khách cảm thấy được đón tiếp, không bị bỏ mặc."
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "cảm ơn",
+                    "cám ơn",
+                    "thanks",
+                    "thank you",
+                    "chúc",
+                    "chúc mình",
+                    "chúc anh",
+                    "chúc chị",
+                    "chúc mua sắm",
+                    "chúc một ngày",
+                    "sẵn sàng hỗ trợ",
+                    "shop sẵn sàng",
+                    "dạ vâng",
+                    "vâng ạ",
+                    "dạ ạ",
+                    "dạ nhé",
+                    "dạ ok",
+                    "ok ạ",
+                    "oki ạ",
+                    "okie ạ",
+                    "dạ được",
+                    "được rồi ạ",
+                    "được nhé",
+                    "dạ em nhận",
+                    "shop đã nhận",
+                    "em đã nhận",
+                    "shop nhận đơn",
+                    "em ghi nhận",
+                    "đã ghi nhận",
+                    "đã chốt đơn",
+                    "shop chốt đơn",
+                    "shop gửi hàng",
+                    "shop ship",
+                    "đơn sẽ được",
+                    "hẹn gặp lại",
+                    "hẹn mình",
+                    "mình nhắn em",
+                    "mình nhắn shop",
+                    "shop nhắn",
+                    "shop hỗ trợ",
+                    "em hỗ trợ",
+                    "em hỗ trợ tiếp",
+                    "hỗ trợ thêm",
+                    "khi cần",
+                    "khi nào cần",
+                    "có gì nhắn",
+                    "có gì cứ nhắn",
+                    "có gì hỗ trợ",
+                    "nhắn shop nha",
+                    "nhắn em nha",
+                    "mình nhé",
+                    "ạ nhé",
+                    "mình nha",
+                    "ạ nha",
+                    "em chào mình",
+                    "shop chào",
+                    "em đi pha",
+                    "đi pha thuốc",
+                    "chuẩn bị đơn",
+                    "soạn đơn",
+                    "lên đơn"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn, lời chúc, lời hẹn gặp lại hoặc câu xác nhận lịch sự (vd: dạ vâng ạ, có gì cứ nhắn shop nhé)."
+                },
+                "rationale": "Lời chào kết giữ ấn tượng cuối tốt, tạo cảm giác khách được chăm sóc trọn vẹn và mở đường cho lần mua tiếp theo."
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                },
+                "rationale": "Cách xưng hô lịch sự (dạ/ạ/mình) là chuẩn giao tiếp của shop — thiếu sẽ làm khách cảm thấy bị lạnh nhạt hoặc thiếu tôn trọng."
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                },
+                "rationale": "Tiếng lóng/teencode không phù hợp môi trường bán hàng chuyên nghiệp, dễ khiến khách lớn tuổi hiểu sai hoặc đánh giá shop thiếu nghiêm túc."
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                },
+                "rationale": "Quá nhiều emoji làm rối tin nhắn, giảm tính chuyên nghiệp và che khuất nội dung tư vấn quan trọng."
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 5.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                },
+                "rationale": "Lịch sử tóc (đã tẩy/nhuộm/duỗi) quyết định công thức an toàn — không hỏi dẫn đến tư vấn sai và rủi ro hỏng tóc khách."
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                },
+                "rationale": "Ảnh tóc thật giúp đánh giá nền tóc và đề xuất công thức chuẩn — tư vấn không có ảnh là tư vấn mù, dễ sai."
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 10.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                },
+                "rationale": "Giải thích quy tắc lên màu (nền tóc, tẩy, oxy) giúp khách hiểu kỳ vọng đúng và không thất vọng sau khi nhuộm."
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 5.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                },
+                "rationale": "Ảnh feedback/màu tham khảo giúp khách hình dung trước kết quả, giảm tranh chãi sau khi nhuộm xong."
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "tỉ lệ",
+                    "chải",
+                    "thời gian ủ"
+                  ],
+                  "fail_suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+                },
+                "rationale": "Hướng dẫn kỹ thuật (tỉ lệ pha, cách chải, thời gian ủ) là cốt lõi để khách tự làm thành công — thiếu là khách dễ thao tác sai."
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                },
+                "rationale": "Báo giá rõ ràng tránh hiểu lầm khi chốt đơn và tạo niềm tin — khách không biết giá là rào cản lớn nhất với quyết định mua."
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 6.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 2,
+                  "fail_suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                },
+                "rationale": "Bước Discovery xác định đúng nhu cầu khách (loại tóc, mong muốn màu) — bỏ qua sẽ tư vấn lệch hướng."
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "oxy"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+                },
+                "rationale": "Bước Solution đưa giải pháp cụ thể phù hợp với nhu cầu khách — không đề xuất giải pháp thì hội thoại vô nghĩa."
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+                },
+                "rationale": "Bước Commitment chốt cam kết của shop (bảo hành, hỗ trợ) — tạo lòng tin để khách quyết định nhanh hơn."
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+                },
+                "rationale": "Bước Close Order chốt thông tin ship/tổng tiền/thanh toán — không chốt rõ ràng dẫn đến đơn rớt hoặc khiếu nại sau giao."
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                },
+                "rationale": "Bước Aftercare nhắn dặn dò sau bán — giảm khiếu nại và tăng khả năng khách quay lại."
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                },
+                "rationale": "Tranh cãi với khách khi có khiếu nại làm tình huống xấu đi và tổn hại thương hiệu — luôn lắng nghe trước, giải quyết sau."
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                },
+                "rationale": "Quy trình xử lý khiếu nại theo bước (xin lỗi → ảnh thực tế → nguyên nhân → giải pháp) đảm bảo khách thấy được lắng nghe và giữ khách lại sau sự cố."
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            },
+            "rationale": "Khách hỏi mà không được trả lời sẽ rời shop và mua chỗ khác — mất doanh thu trực tiếp và uy tín shop."
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            },
+            "rationale": "Tone tiêu cực với khách (lớn tiếng, đổ lỗi) làm đổ vỡ quan hệ ngay lập tức và lan tiếng xấu — đây là vạch đỏ tuyệt đối."
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            },
+            "rationale": "Tư vấn sai thông tin sản phẩm (giá/thành phần/công dụng) dẫn đến mất uy tín và rủi ro pháp lý."
+          },
+          {
+            "id": "no_current_hair_photo",
+            "name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+            "max_score": 0.0,
+            "type": "missing_required_before_advice",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "required_keywords": [
+                "ảnh tóc",
+                "gửi ảnh tóc",
+                "ảnh hiện tại",
+                "chụp tóc qua cam",
+                "chụp tóc qua cam thường",
+                "gửi ảnh qua cam thường",
+                "chụp tóc rõ nền tóc hiện tại"
+              ],
+              "advice_keywords": [
+                "mã màu",
+                "tỉ lệ pha",
+                "thời gian ủ",
+                "lên màu",
+                "oxy"
+              ],
+              "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+            },
+            "rationale": "Tư vấn nhuộm không có ảnh tóc thật là sai quy định shop — dễ tư vấn nhầm công thức gây hỏng tóc, dẫn đến khiếu nại lớn."
+          }
+        ]
+      }
+    },
+    {
+      "version": "ecad24d4e3f2",
+      "created_at": "2026-05-18T15:57:40+07:00",
+      "ruleset_snapshot": {
+        "version": "1.2.0",
+        "max_score": 105.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                },
+                "rationale": "Lời chào mở đầu thiết lập tone chuyên nghiệp và thân thiện ngay từ tin nhắn đầu — khách cảm thấy được đón tiếp, không bị bỏ mặc."
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "dạ",
+                    "cảm ơn",
+                    "cám ơn",
+                    "thanks",
+                    "thank you",
+                    "chúc",
+                    "chúc mình",
+                    "chúc anh",
+                    "chúc chị",
+                    "chúc mua sắm",
+                    "chúc một ngày",
+                    "sẵn sàng hỗ trợ",
+                    "shop sẵn sàng",
+                    "dạ vâng",
+                    "vâng ạ",
+                    "dạ ạ",
+                    "dạ nhé",
+                    "dạ ok",
+                    "ok ạ",
+                    "oki ạ",
+                    "okie ạ",
+                    "dạ được",
+                    "được rồi ạ",
+                    "được nhé",
+                    "dạ em nhận",
+                    "shop đã nhận",
+                    "em đã nhận",
+                    "shop nhận đơn",
+                    "em ghi nhận",
+                    "đã ghi nhận",
+                    "đã chốt đơn",
+                    "shop chốt đơn",
+                    "shop gửi hàng",
+                    "shop ship",
+                    "đơn sẽ được",
+                    "hẹn gặp lại",
+                    "hẹn mình",
+                    "mình nhắn em",
+                    "mình nhắn shop",
+                    "shop nhắn",
+                    "shop hỗ trợ",
+                    "em hỗ trợ",
+                    "em hỗ trợ tiếp",
+                    "hỗ trợ thêm",
+                    "khi cần",
+                    "khi nào cần",
+                    "có gì nhắn",
+                    "có gì cứ nhắn",
+                    "có gì hỗ trợ",
+                    "nhắn shop nha",
+                    "nhắn em nha",
+                    "mình nhé",
+                    "ạ nhé",
+                    "mình nha",
+                    "ạ nha",
+                    "em chào mình",
+                    "shop chào",
+                    "em đi pha",
+                    "đi pha thuốc",
+                    "chuẩn bị đơn",
+                    "soạn đơn",
+                    "lên đơn"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn, lời chúc, lời hẹn gặp lại hoặc câu xác nhận lịch sự (vd: dạ vâng ạ, có gì cứ nhắn shop nhé)."
+                },
+                "rationale": "Lời chào kết giữ ấn tượng cuối tốt, tạo cảm giác khách được chăm sóc trọn vẹn và mở đường cho lần mua tiếp theo."
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                },
+                "rationale": "Cách xưng hô lịch sự (dạ/ạ/mình) là chuẩn giao tiếp của shop — thiếu sẽ làm khách cảm thấy bị lạnh nhạt hoặc thiếu tôn trọng."
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                },
+                "rationale": "Tiếng lóng/teencode không phù hợp môi trường bán hàng chuyên nghiệp, dễ khiến khách lớn tuổi hiểu sai hoặc đánh giá shop thiếu nghiêm túc."
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                },
+                "rationale": "Quá nhiều emoji làm rối tin nhắn, giảm tính chuyên nghiệp và che khuất nội dung tư vấn quan trọng."
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 5.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                },
+                "rationale": "Lịch sử tóc (đã tẩy/nhuộm/duỗi) quyết định công thức an toàn — không hỏi dẫn đến tư vấn sai và rủi ro hỏng tóc khách."
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                },
+                "rationale": "Ảnh tóc thật giúp đánh giá nền tóc và đề xuất công thức chuẩn — tư vấn không có ảnh là tư vấn mù, dễ sai."
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 10.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                },
+                "rationale": "Giải thích quy tắc lên màu (nền tóc, tẩy, oxy) giúp khách hiểu kỳ vọng đúng và không thất vọng sau khi nhuộm."
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 5.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                },
+                "rationale": "Ảnh feedback/màu tham khảo giúp khách hình dung trước kết quả, giảm tranh chãi sau khi nhuộm xong."
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "tỉ lệ",
+                    "chải",
+                    "thời gian ủ"
+                  ],
+                  "fail_suggestion": "Nêu rõ tỉ lệ pha, cách chải thuốc và thời gian ủ."
+                },
+                "rationale": "Hướng dẫn kỹ thuật (tỉ lệ pha, cách chải, thời gian ủ) là cốt lõi để khách tự làm thành công — thiếu là khách dễ thao tác sai."
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                },
+                "rationale": "Báo giá rõ ràng tránh hiểu lầm khi chốt đơn và tạo niềm tin — khách không biết giá là rào cản lớn nhất với quyết định mua."
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 6.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 2,
+                  "fail_suggestion": "Đặt ít nhất 2 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                },
+                "rationale": "Bước Discovery xác định đúng nhu cầu khách (loại tóc, mong muốn màu) — bỏ qua sẽ tư vấn lệch hướng."
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "oxy"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và sản phẩm hỗ trợ như oxy/tẩy/dưỡng."
+                },
+                "rationale": "Bước Solution đưa giải pháp cụ thể phù hợp với nhu cầu khách — không đề xuất giải pháp thì hội thoại vô nghĩa."
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến để tránh kỳ vọng sai."
+                },
+                "rationale": "Bước Commitment chốt cam kết của shop (bảo hành, hỗ trợ) — tạo lòng tin để khách quyết định nhanh hơn."
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn",
+                "max_score": 6.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Báo giá ship, tổng tiền và hỏi phương thức thanh toán."
+                },
+                "rationale": "Bước Close Order chốt thông tin ship/tổng tiền/thanh toán — không chốt rõ ràng dẫn đến đơn rớt hoặc khiếu nại sau giao."
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                },
+                "rationale": "Bước Aftercare nhắn dặn dò sau bán — giảm khiếu nại và tăng khả năng khách quay lại."
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                },
+                "rationale": "Tranh cãi với khách khi có khiếu nại làm tình huống xấu đi và tổn hại thương hiệu — luôn lắng nghe trước, giải quyết sau."
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                },
+                "rationale": "Quy trình xử lý khiếu nại theo bước (xin lỗi → ảnh thực tế → nguyên nhân → giải pháp) đảm bảo khách thấy được lắng nghe và giữ khách lại sau sự cố."
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            },
+            "rationale": "Khách hỏi mà không được trả lời sẽ rời shop và mua chỗ khác — mất doanh thu trực tiếp và uy tín shop."
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            },
+            "rationale": "Tone tiêu cực với khách (lớn tiếng, đổ lỗi) làm đổ vỡ quan hệ ngay lập tức và lan tiếng xấu — đây là vạch đỏ tuyệt đối."
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            },
+            "rationale": "Tư vấn sai thông tin sản phẩm (giá/thành phần/công dụng) dẫn đến mất uy tín và rủi ro pháp lý."
+          },
+          {
+            "id": "no_current_hair_photo",
+            "name": "Không yêu cầu ảnh tóc hiện tại trước khi tư vấn",
+            "max_score": 0.0,
+            "type": "missing_required_before_advice",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "required_keywords": [
+                "ảnh tóc",
+                "gửi ảnh tóc",
+                "ảnh hiện tại",
+                "chụp tóc qua cam",
+                "chụp tóc qua cam thường",
+                "gửi ảnh qua cam thường",
+                "chụp tóc rõ nền tóc hiện tại"
+              ],
+              "advice_keywords": [
+                "mã màu",
+                "tỉ lệ pha",
+                "thời gian ủ",
+                "lên màu",
+                "oxy"
+              ],
+              "fail_suggestion": "Phải xin ảnh tóc hiện tại trước khi bắt đầu tư vấn công thức."
+            },
+            "rationale": "Tư vấn nhuộm không có ảnh tóc thật là sai quy định shop — dễ tư vấn nhầm công thức gây hỏng tóc, dẫn đến khiếu nại lớn."
+          }
+        ]
+      }
+    },
+    {
+      "version": "e220f096b096",
+      "created_at": "2026-05-22T15:21:59+07:00",
+      "ruleset_snapshot": {
+        "version": "1.3.0",
+        "max_score": 105,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                },
+                "rationale": "Lời chào mở đầu thiết lập tone chuyên nghiệp và thân thiện ngay từ tin nhắn đầu — khách cảm thấy được đón tiếp, không bị bỏ mặc."
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "dạ",
+                    "cảm ơn",
+                    "cám ơn",
+                    "thanks",
+                    "thank you",
+                    "chúc",
+                    "chúc mình",
+                    "chúc anh",
+                    "chúc chị",
+                    "chúc mua sắm",
+                    "chúc một ngày",
+                    "sẵn sàng hỗ trợ",
+                    "shop sẵn sàng",
+                    "dạ vâng",
+                    "vâng ạ",
+                    "dạ ạ",
+                    "dạ nhé",
+                    "dạ ok",
+                    "ok ạ",
+                    "oki ạ",
+                    "okie ạ",
+                    "dạ được",
+                    "được rồi ạ",
+                    "được nhé",
+                    "dạ em nhận",
+                    "shop đã nhận",
+                    "em đã nhận",
+                    "shop nhận đơn",
+                    "em ghi nhận",
+                    "đã ghi nhận",
+                    "đã chốt đơn",
+                    "shop chốt đơn",
+                    "shop gửi hàng",
+                    "shop ship",
+                    "đơn sẽ được",
+                    "hẹn gặp lại",
+                    "hẹn mình",
+                    "mình nhắn em",
+                    "mình nhắn shop",
+                    "shop nhắn",
+                    "shop hỗ trợ",
+                    "em hỗ trợ",
+                    "em hỗ trợ tiếp",
+                    "hỗ trợ thêm",
+                    "khi cần",
+                    "khi nào cần",
+                    "có gì nhắn",
+                    "có gì cứ nhắn",
+                    "có gì hỗ trợ",
+                    "nhắn shop nha",
+                    "nhắn em nha",
+                    "mình nhé",
+                    "ạ nhé",
+                    "mình nha",
+                    "ạ nha",
+                    "em chào mình",
+                    "shop chào",
+                    "em đi pha",
+                    "đi pha thuốc",
+                    "chuẩn bị đơn",
+                    "soạn đơn",
+                    "lên đơn"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn, lời chúc, lời hẹn gặp lại hoặc câu xác nhận lịch sự (vd: dạ vâng ạ, có gì cứ nhắn shop nhé)."
+                },
+                "rationale": "Lời chào kết giữ ấn tượng cuối tốt, tạo cảm giác khách được chăm sóc trọn vẹn và mở đường cho lần mua tiếp theo."
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                },
+                "rationale": "Cách xưng hô lịch sự (dạ/ạ/mình) là chuẩn giao tiếp của shop — thiếu sẽ làm khách cảm thấy bị lạnh nhạt hoặc thiếu tôn trọng."
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                },
+                "rationale": "Tiếng lóng/teencode không phù hợp môi trường bán hàng chuyên nghiệp, dễ khiến khách lớn tuổi hiểu sai hoặc đánh giá shop thiếu nghiêm túc."
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                },
+                "rationale": "Quá nhiều emoji làm rối tin nhắn, giảm tính chuyên nghiệp và che khuất nội dung tư vấn quan trọng."
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 7,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                },
+                "rationale": "Lịch sử tóc (đã tẩy/nhuộm/duỗi) quyết định công thức an toàn — không hỏi dẫn đến tư vấn sai và rủi ro hỏng tóc khách."
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 7,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                },
+                "rationale": "Ảnh tóc thật giúp đánh giá nền tóc và đề xuất công thức chuẩn — tư vấn không có ảnh là tư vấn mù, dễ sai."
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 7,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                },
+                "rationale": "Giải thích quy tắc lên màu (nền tóc, tẩy, oxy) giúp khách hiểu kỳ vọng đúng và không thất vọng sau khi nhuộm."
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 1,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                },
+                "rationale": "Ảnh feedback/màu tham khảo giúp khách hình dung trước kết quả, giảm tranh chãi sau khi nhuộm xong."
+              },
+              {
+                "id": "advise_product_quantity",
+                "name": "Tư vấn lượng sản phẩm khách cần mua",
+                "max_score": 6,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "1 tuýp",
+                    "2 tuýp",
+                    "tuýp thuốc",
+                    "chai oxy",
+                    "chai tẩy",
+                    "lượng thuốc",
+                    "đủ dùng",
+                    "nâng nền",
+                    "nâng tone",
+                    "dầu gội nhuộm"
+                  ],
+                  "fail_suggestion": "Tư vấn cụ thể lượng cần mua cho từng loại sản phẩm (thuốc nhuộm, dầu gội nhuộm, thuốc tẩy, thuốc nâng nền, thuốc nâng tone)."
+                },
+                "rationale": "Tư vấn đủ lượng sản phẩm giúp khách dùng đúng, kết quả như mong muốn, giảm khiếu nại sau bán."
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng (nếu khách hỏi)",
+                "max_score": 1,
+                "type": "conditional_keyword",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "trigger_keywords": [
+                    "pha như thế nào",
+                    "pha kiểu gì",
+                    "tỉ lệ",
+                    "tỷ lệ",
+                    "ủ bao lâu",
+                    "ủ thuốc",
+                    "thời gian ủ",
+                    "cách pha",
+                    "hướng dẫn"
+                  ],
+                  "response_keywords": [
+                    "tỉ lệ",
+                    "phút",
+                    "ủ",
+                    "trộn đều",
+                    "ml",
+                    "pha với"
+                  ],
+                  "fail_suggestion": "Khi khách hỏi về kỹ thuật, hướng dẫn rõ cách pha, tỉ lệ, thời gian ủ.",
+                  "skip_if_not_triggered": true
+                },
+                "rationale": "Hướng dẫn kỹ thuật chỉ cần thiết khi khách yêu cầu. Không hỏi thì không cần tư vấn để tránh làm khách rối."
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 6,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                },
+                "rationale": "Báo giá rõ ràng tránh hiểu lầm khi chốt đơn và tạo niềm tin — khách không biết giá là rào cản lớn nhất với quyết định mua."
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 7,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 1,
+                  "fail_suggestion": "Đặt ít nhất 1 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                },
+                "rationale": "Bước Discovery xác định đúng nhu cầu khách (loại tóc, mong muốn màu) — bỏ qua sẽ tư vấn lệch hướng."
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 7,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "nền tóc"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và xác định nền tóc, kèm sản phẩm hỗ trợ (tẩy, dưỡng)."
+                },
+                "rationale": "Bước Solution đưa giải pháp cụ thể phù hợp với nhu cầu khách — không đề xuất giải pháp thì hội thoại vô nghĩa."
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 7,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại",
+                    "level tiêu chuẩn",
+                    "đúng nền"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến và yêu cầu nhuộm trên đúng nền level tiêu chuẩn."
+                },
+                "rationale": "Bước Commitment chốt cam kết của shop (bảo hành, hỗ trợ) — tạo lòng tin để khách quyết định nhanh hơn."
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn (FB/IG)",
+                "max_score": 7,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Với đơn FB/IG: báo giá ship, tổng tiền và hỏi phương thức thanh toán.",
+                  "applies_to_channels": [
+                    "facebook",
+                    "instagram"
+                  ],
+                  "skip_for_channels": [
+                    "shopee",
+                    "tiktok",
+                    "lazada"
+                  ],
+                  "skip_reason": "Đơn sàn (Shopee/TikTok/Lazada) có flow riêng — không cần chốt đơn trong chat."
+                },
+                "rationale": "Đơn FB/IG cần chốt rõ ràng ship/tổng tiền/thanh toán. Đơn sàn có flow riêng, không tính tiêu chí này."
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 2,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                },
+                "rationale": "Bước Aftercare giảm khiếu nại và tăng khả năng khách quay lại. Trọng số thấp vì là nice-to-have, không phải must-have."
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                },
+                "rationale": "Tranh cãi với khách khi có khiếu nại làm tình huống xấu đi và tổn hại thương hiệu — luôn lắng nghe trước, giải quyết sau."
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                },
+                "rationale": "Quy trình xử lý khiếu nại theo bước (xin lỗi → ảnh thực tế → nguyên nhân → giải pháp) đảm bảo khách thấy được lắng nghe và giữ khách lại sau sự cố."
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            },
+            "rationale": "Khách hỏi mà không được trả lời sẽ rời shop và mua chỗ khác — mất doanh thu trực tiếp và uy tín shop."
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            },
+            "rationale": "Tone tiêu cực với khách (lớn tiếng, đổ lỗi) làm đổ vỡ quan hệ ngay lập tức và lan tiếng xấu — đây là vạch đỏ tuyệt đối."
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            },
+            "rationale": "Tư vấn sai thông tin sản phẩm (giá/thành phần/công dụng) dẫn đến mất uy tín và rủi ro pháp lý."
+          }
+        ],
+        "approved_by": "Giám đốc Kinh doanh",
+        "approved_date": "2026-05-21",
+        "doc_reference": "QUY_DINH_CHAM_DIEM_v1.1.docx"
+      },
+      "change_notes": {
+        "ruleset_version_label": "1.3.0",
+        "changed_by": "Giám đốc Kinh doanh",
+        "summary": "Tái cân bằng điểm số category Kiến thức và SOP. Thêm rule Tư vấn lượng sản phẩm. Bước Chốt đơn chỉ áp dụng FB/IG. Bỏ blacklist Không yêu cầu ảnh tóc.",
+        "doc_reference": "QUY_DINH_CHAM_DIEM_v1.1.docx",
+        "diff": {
+          "professional_consulting": {
+            "ask_hair_history": {
+              "max_score": [
+                5,
+                7
+              ]
+            },
+            "request_current_hair_photo": {
+              "max_score": [
+                5,
+                7
+              ]
+            },
+            "explain_color_result": {
+              "max_score": [
+                10,
+                7
+              ]
+            },
+            "send_feedback_image": {
+              "max_score": [
+                5,
+                1
+              ]
+            },
+            "advise_product_quantity": "ADDED",
+            "technical_instruction": {
+              "max_score": [
+                5,
+                1
+              ],
+              "type": [
+                "keyword_all",
+                "conditional_keyword"
+              ]
+            },
+            "price_disclosure": {
+              "max_score": [
+                5,
+                6
+              ]
+            }
+          },
+          "sop_process": {
+            "sop_discovery": {
+              "max_score": [
+                6,
+                7
+              ],
+              "min_count": [
+                2,
+                1
+              ]
+            },
+            "sop_solution": {
+              "max_score": [
+                6,
+                7
+              ],
+              "keywords": "removed oxy, added nền tóc"
+            },
+            "sop_commitment": {
+              "max_score": [
+                6,
+                7
+              ],
+              "keywords": "added level tiêu chuẩn, đúng nền"
+            },
+            "sop_close_order": {
+              "max_score": [
+                6,
+                7
+              ],
+              "applies_to_channels": "ADDED [facebook,instagram]"
+            },
+            "sop_aftercare": {
+              "max_score": [
+                6,
+                2
+              ]
+            }
+          },
+          "blacklist": {
+            "no_current_hair_photo": "REMOVED"
+          }
+        }
+      }
+    },
+    {
+      "version": "487a16166184",
+      "created_at": "2026-05-22T15:23:06+07:00",
+      "ruleset_snapshot": {
+        "version": "1.3.0",
+        "max_score": 105.0,
+        "categories": [
+          {
+            "id": "attitude_style",
+            "name": "Thái độ và Tác phong",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "opening_greeting",
+                "name": "Có lời chào và câu hỏi mở",
+                "max_score": 5.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "dạ chào",
+                    "buddy có thể hỗ trợ",
+                    "hỗ trợ gì"
+                  ],
+                  "fail_suggestion": "Mở đầu bằng lời chào kèm câu hỏi mở theo đúng mẫu."
+                },
+                "rationale": "Lời chào mở đầu thiết lập tone chuyên nghiệp và thân thiện ngay từ tin nhắn đầu — khách cảm thấy được đón tiếp, không bị bỏ mặc."
+              },
+              {
+                "id": "sop_closing",
+                "name": "Nhân viên là người kết thúc cuộc trò chuyện",
+                "max_score": 5.0,
+                "type": "employee_last_message",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "closing_keywords": [
+                    "dạ",
+                    "cảm ơn",
+                    "cám ơn",
+                    "thanks",
+                    "thank you",
+                    "chúc",
+                    "chúc mình",
+                    "chúc anh",
+                    "chúc chị",
+                    "chúc mua sắm",
+                    "chúc một ngày",
+                    "sẵn sàng hỗ trợ",
+                    "shop sẵn sàng",
+                    "dạ vâng",
+                    "vâng ạ",
+                    "dạ ạ",
+                    "dạ nhé",
+                    "dạ ok",
+                    "ok ạ",
+                    "oki ạ",
+                    "okie ạ",
+                    "dạ được",
+                    "được rồi ạ",
+                    "được nhé",
+                    "dạ em nhận",
+                    "shop đã nhận",
+                    "em đã nhận",
+                    "shop nhận đơn",
+                    "em ghi nhận",
+                    "đã ghi nhận",
+                    "đã chốt đơn",
+                    "shop chốt đơn",
+                    "shop gửi hàng",
+                    "shop ship",
+                    "đơn sẽ được",
+                    "hẹn gặp lại",
+                    "hẹn mình",
+                    "mình nhắn em",
+                    "mình nhắn shop",
+                    "shop nhắn",
+                    "shop hỗ trợ",
+                    "em hỗ trợ",
+                    "em hỗ trợ tiếp",
+                    "hỗ trợ thêm",
+                    "khi cần",
+                    "khi nào cần",
+                    "có gì nhắn",
+                    "có gì cứ nhắn",
+                    "có gì hỗ trợ",
+                    "nhắn shop nha",
+                    "nhắn em nha",
+                    "mình nhé",
+                    "ạ nhé",
+                    "mình nha",
+                    "ạ nha",
+                    "em chào mình",
+                    "shop chào",
+                    "em đi pha",
+                    "đi pha thuốc",
+                    "chuẩn bị đơn",
+                    "soạn đơn",
+                    "lên đơn"
+                  ],
+                  "fail_suggestion": "Kết thúc hội thoại bằng lời cảm ơn, lời chúc, lời hẹn gặp lại hoặc câu xác nhận lịch sự (vd: dạ vâng ạ, có gì cứ nhắn shop nhé)."
+                },
+                "rationale": "Lời chào kết giữ ấn tượng cuối tốt, tạo cảm giác khách được chăm sóc trọn vẹn và mở đường cho lần mua tiếp theo."
+              },
+              {
+                "id": "polite_language",
+                "name": "Dùng kính ngữ trong các câu trả lời",
+                "max_score": 5.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dạ",
+                    "ạ"
+                  ],
+                  "fail_suggestion": "Bổ sung kính ngữ Dạ/ạ xuyên suốt hội thoại."
+                },
+                "rationale": "Cách xưng hô lịch sự (dạ/ạ/mình) là chuẩn giao tiếp của shop — thiếu sẽ làm khách cảm thấy bị lạnh nhạt hoặc thiếu tôn trọng."
+              },
+              {
+                "id": "no_slang",
+                "name": "Không viết tắt, không teencode",
+                "max_score": 3.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "oke",
+                    "okela",
+                    "ko ",
+                    " dc",
+                    " ib ",
+                    " rep ",
+                    "kkk"
+                  ],
+                  "fail_suggestion": "Tránh viết tắt và teencode trong hội thoại với khách."
+                },
+                "rationale": "Tiếng lóng/teencode không phù hợp môi trường bán hàng chuyên nghiệp, dễ khiến khách lớn tuổi hiểu sai hoặc đánh giá shop thiếu nghiêm túc."
+              },
+              {
+                "id": "max_emoji_per_message",
+                "name": "Icon dùng chừng mực",
+                "max_score": 2.0,
+                "type": "max_emoji_per_message",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "max_emoji": 3,
+                  "fail_suggestion": "Giữ số lượng icon tối đa 2-3 cái mỗi tin nhắn."
+                },
+                "rationale": "Quá nhiều emoji làm rối tin nhắn, giảm tính chuyên nghiệp và che khuất nội dung tư vấn quan trọng."
+              }
+            ]
+          },
+          {
+            "id": "professional_consulting",
+            "name": "Kiến thức Chuyên môn và Tư vấn",
+            "max_score": 35.0,
+            "rules": [
+              {
+                "id": "ask_hair_history",
+                "name": "Hỏi lịch sử tóc",
+                "max_score": 7.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keyword_groups": [
+                    [
+                      "nhuộm đen",
+                      "nhuộm đỏ"
+                    ],
+                    [
+                      "tóc tẩy",
+                      "tóc tự nhiên"
+                    ],
+                    [
+                      "uốn",
+                      "duỗi",
+                      "đã nhuộm trước đó"
+                    ]
+                  ],
+                  "min_count": 2,
+                  "fail_suggestion": "Khai thác tối thiểu 2 nhóm thông tin lịch sử tóc trước khi tư vấn."
+                },
+                "rationale": "Lịch sử tóc (đã tẩy/nhuộm/duỗi) quyết định công thức an toàn — không hỏi dẫn đến tư vấn sai và rủi ro hỏng tóc khách."
+              },
+              {
+                "id": "request_current_hair_photo",
+                "name": "Yêu cầu ảnh tóc hiện tại",
+                "max_score": 7.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "gửi ảnh tóc hiện tại",
+                    "gửi ảnh tóc",
+                    "ảnh tóc hiện tại",
+                    "chụp tóc qua cam",
+                    "chụp tóc qua cam thường",
+                    "chụp tóc rõ nền tóc hiện tại",
+                    "gửi ảnh qua cam thường"
+                  ],
+                  "fail_suggestion": "Yêu cầu khách gửi ảnh tóc hiện tại trước khi tư vấn."
+                },
+                "rationale": "Ảnh tóc thật giúp đánh giá nền tóc và đề xuất công thức chuẩn — tư vấn không có ảnh là tư vấn mù, dễ sai."
+              },
+              {
+                "id": "explain_color_result",
+                "name": "Giải thích quy tắc lên màu",
+                "max_score": 7.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "nền tóc",
+                    "tẩy",
+                    "lên màu"
+                  ],
+                  "fail_suggestion": "Giải thích rõ nền tóc ảnh hưởng ra sao, cần tẩy mấy lần và khả năng lên màu."
+                },
+                "rationale": "Giải thích quy tắc lên màu (nền tóc, tẩy, oxy) giúp khách hiểu kỳ vọng đúng và không thất vọng sau khi nhuộm."
+              },
+              {
+                "id": "send_feedback_image",
+                "name": "Gửi ảnh feedback hoặc màu tham khảo",
+                "max_score": 1.0,
+                "type": "attachment_required",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "attachment_types": [
+                    "image"
+                  ],
+                  "fail_suggestion": "Gửi ít nhất một ảnh feedback hoặc màu tham khảo cho khách."
+                },
+                "rationale": "Ảnh feedback/màu tham khảo giúp khách hình dung trước kết quả, giảm tranh chãi sau khi nhuộm xong."
+              },
+              {
+                "id": "advise_product_quantity",
+                "name": "Tư vấn lượng sản phẩm khách cần mua",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "1 tuýp",
+                    "2 tuýp",
+                    "tuýp thuốc",
+                    "chai oxy",
+                    "chai tẩy",
+                    "lượng thuốc",
+                    "đủ dùng",
+                    "nâng nền",
+                    "nâng tone",
+                    "dầu gội nhuộm"
+                  ],
+                  "fail_suggestion": "Tư vấn cụ thể lượng cần mua cho từng loại sản phẩm (thuốc nhuộm, dầu gội nhuộm, thuốc tẩy, thuốc nâng nền, thuốc nâng tone)."
+                },
+                "rationale": "Tư vấn đủ lượng sản phẩm giúp khách dùng đúng, kết quả như mong muốn, giảm khiếu nại sau bán."
+              },
+              {
+                "id": "technical_instruction",
+                "name": "Hướng dẫn kỹ thuật rõ ràng (nếu khách hỏi)",
+                "max_score": 1.0,
+                "type": "conditional_keyword",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "trigger_keywords": [
+                    "pha như thế nào",
+                    "pha kiểu gì",
+                    "tỉ lệ",
+                    "tỷ lệ",
+                    "ủ bao lâu",
+                    "ủ thuốc",
+                    "thời gian ủ",
+                    "cách pha",
+                    "hướng dẫn"
+                  ],
+                  "response_keywords": [
+                    "tỉ lệ",
+                    "phút",
+                    "ủ",
+                    "trộn đều",
+                    "ml",
+                    "pha với"
+                  ],
+                  "fail_suggestion": "Khi khách hỏi về kỹ thuật, hướng dẫn rõ cách pha, tỉ lệ, thời gian ủ.",
+                  "skip_if_not_triggered": true
+                },
+                "rationale": "Hướng dẫn kỹ thuật chỉ cần thiết khi khách yêu cầu. Không hỏi thì không cần tư vấn để tránh làm khách rối."
+              },
+              {
+                "id": "price_disclosure",
+                "name": "Báo giá sản phẩm rõ ràng",
+                "max_score": 6.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "giá",
+                    "k/bộ",
+                    "k/set",
+                    "k bộ",
+                    "k set",
+                    "k/chai",
+                    "đồng",
+                    "vnđ",
+                    "vnd",
+                    "ưu đãi",
+                    "giảm giá",
+                    "khuyến mãi",
+                    "sale"
+                  ],
+                  "fail_suggestion": "Báo giá sản phẩm rõ ràng cho khách, kèm ưu đãi nếu có."
+                },
+                "rationale": "Báo giá rõ ràng tránh hiểu lầm khi chốt đơn và tạo niềm tin — khách không biết giá là rào cản lớn nhất với quyết định mua."
+              }
+            ]
+          },
+          {
+            "id": "sop_process",
+            "name": "Quy trình Tư vấn Tiêu chuẩn SOP",
+            "max_score": 30.0,
+            "rules": [
+              {
+                "id": "sop_discovery",
+                "name": "Bước 1 - Khai thác",
+                "max_score": 7.0,
+                "type": "keyword_count_min",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "mode": "question_count",
+                  "min_count": 1,
+                  "fail_suggestion": "Đặt ít nhất 1 câu hỏi khai thác về tình trạng và mong muốn của khách."
+                },
+                "rationale": "Bước Discovery xác định đúng nhu cầu khách (loại tóc, mong muốn màu) — bỏ qua sẽ tư vấn lệch hướng."
+              },
+              {
+                "id": "sop_solution",
+                "name": "Bước 2 - Giải pháp",
+                "max_score": 7.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "mã màu",
+                    "nền tóc"
+                  ],
+                  "fail_suggestion": "Đưa ra mã màu phù hợp và xác định nền tóc, kèm sản phẩm hỗ trợ (tẩy, dưỡng)."
+                },
+                "rationale": "Bước Solution đưa giải pháp cụ thể phù hợp với nhu cầu khách — không đề xuất giải pháp thì hội thoại vô nghĩa."
+              },
+              {
+                "id": "sop_commitment",
+                "name": "Bước 3 - Cam kết",
+                "max_score": 7.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "dự kiến",
+                    "khoảng",
+                    "tránh khiếu nại",
+                    "level tiêu chuẩn",
+                    "đúng nền"
+                  ],
+                  "fail_suggestion": "Nêu rõ mức độ lên màu dự kiến và yêu cầu nhuộm trên đúng nền level tiêu chuẩn."
+                },
+                "rationale": "Bước Commitment chốt cam kết của shop (bảo hành, hỗ trợ) — tạo lòng tin để khách quyết định nhanh hơn."
+              },
+              {
+                "id": "sop_close_order",
+                "name": "Bước 4 - Chốt đơn (FB/IG)",
+                "max_score": 7.0,
+                "type": "keyword_all",
+                "applies_to": "employee",
+                "severity": "medium",
+                "config": {
+                  "keywords": [
+                    "ship",
+                    "tổng tiền",
+                    "thanh toán"
+                  ],
+                  "fail_suggestion": "Với đơn FB/IG: báo giá ship, tổng tiền và hỏi phương thức thanh toán.",
+                  "applies_to_channels": [
+                    "facebook",
+                    "instagram"
+                  ],
+                  "skip_for_channels": [
+                    "shopee",
+                    "tiktok",
+                    "lazada"
+                  ],
+                  "skip_reason": "Đơn sàn (Shopee/TikTok/Lazada) có flow riêng — không cần chốt đơn trong chat."
+                },
+                "rationale": "Đơn FB/IG cần chốt rõ ràng ship/tổng tiền/thanh toán. Đơn sàn có flow riêng, không tính tiêu chí này."
+              },
+              {
+                "id": "sop_aftercare",
+                "name": "Bước 5 - Hậu mãi",
+                "max_score": 2.0,
+                "type": "keyword_any",
+                "applies_to": "employee",
+                "severity": "low",
+                "config": {
+                  "keywords": [
+                    "48h",
+                    "giữ màu",
+                    "chăm sóc tóc"
+                  ],
+                  "fail_suggestion": "Dặn khách cách chăm tóc và giữ màu sau nhuộm."
+                },
+                "rationale": "Bước Aftercare giảm khiếu nại và tăng khả năng khách quay lại. Trọng số thấp vì là nice-to-have, không phải must-have."
+              }
+            ]
+          },
+          {
+            "id": "complaint_handling",
+            "name": "Xử lý Phản hồi và Khiếu nại",
+            "max_score": 20.0,
+            "rules": [
+              {
+                "id": "complaint_no_argument",
+                "name": "Không tranh cãi, không đổ lỗi khách",
+                "max_score": 8.0,
+                "type": "forbidden_keyword",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "keywords": [
+                    "tại chị",
+                    "tại anh",
+                    "bên em không sai",
+                    "khách nói sai"
+                  ],
+                  "fail_suggestion": "Giữ thái độ lắng nghe, không tranh cãi hoặc đổ lỗi cho khách."
+                },
+                "rationale": "Tranh cãi với khách khi có khiếu nại làm tình huống xấu đi và tổn hại thương hiệu — luôn lắng nghe trước, giải quyết sau."
+              },
+              {
+                "id": "complaint_flow",
+                "name": "Đúng công thức xử lý khiếu nại",
+                "max_score": 12.0,
+                "type": "complaint_flow",
+                "applies_to": "employee",
+                "severity": "high",
+                "config": {
+                  "complaint_keywords": [
+                    "không hài lòng",
+                    "thất vọng",
+                    "khiếu nại",
+                    "lên màu lệch"
+                  ],
+                  "steps": [
+                    {
+                      "name": "Xin lỗi cảm xúc",
+                      "keywords": [
+                        "xin lỗi",
+                        "rất tiếc"
+                      ]
+                    },
+                    {
+                      "name": "Yêu cầu ảnh thực tế",
+                      "keywords": [
+                        "ảnh thực tế",
+                        "gửi ảnh tóc hiện tại"
+                      ]
+                    },
+                    {
+                      "name": "Tìm nguyên nhân",
+                      "keywords": [
+                        "nguyên nhân",
+                        "kiểm tra nền tóc"
+                      ]
+                    },
+                    {
+                      "name": "Đưa giải pháp",
+                      "keywords": [
+                        "giải pháp",
+                        "hỗ trợ công thức",
+                        "điều chỉnh màu"
+                      ]
+                    }
+                  ],
+                  "fail_suggestion": "Xử lý khiếu nại theo đủ 4 bước: xin lỗi, xin ảnh, tìm nguyên nhân, đưa giải pháp."
+                },
+                "rationale": "Quy trình xử lý khiếu nại theo bước (xin lỗi → ảnh thực tế → nguyên nhân → giải pháp) đảm bảo khách thấy được lắng nghe và giữ khách lại sau sự cố."
+              }
+            ]
+          }
+        ],
+        "blacklist": [
+          {
+            "id": "customer_unanswered",
+            "name": "Bỏ ngang hội thoại",
+            "max_score": 0.0,
+            "type": "customer_not_left_unanswered",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "fail_suggestion": "Không để khách là người nhắn cuối mà không được phản hồi."
+            },
+            "rationale": "Khách hỏi mà không được trả lời sẽ rời shop và mua chỗ khác — mất doanh thu trực tiếp và uy tín shop."
+          },
+          {
+            "id": "negative_tone",
+            "name": "Thái độ tiêu cực",
+            "max_score": 0.0,
+            "type": "forbidden_keyword",
+            "applies_to": "employee",
+            "severity": "critical",
+            "config": {
+              "keywords": [
+                "không mua thì thôi",
+                "thích thì mua",
+                "đọc kỹ đi",
+                "bên em không tiếp"
+              ],
+              "fail_suggestion": "Loại bỏ hoàn toàn ngôn ngữ thách thức hoặc thiếu tôn trọng."
+            },
+            "rationale": "Tone tiêu cực với khách (lớn tiếng, đổ lỗi) làm đổ vỡ quan hệ ngay lập tức và lan tiếng xấu — đây là vạch đỏ tuyệt đối."
+          },
+          {
+            "id": "incorrect_product_info",
+            "name": "Sai lệch thông tin sản phẩm",
+            "max_score": 0.0,
+            "type": "metadata_flag",
+            "applies_to": "all",
+            "severity": "critical",
+            "config": {
+              "flag_name": "incorrect_product_info",
+              "fail_suggestion": "Rà soát lại giá, dung tích và công dụng sản phẩm trước khi tư vấn."
+            },
+            "rationale": "Tư vấn sai thông tin sản phẩm (giá/thành phần/công dụng) dẫn đến mất uy tín và rủi ro pháp lý."
+          }
+        ]
+      }
+    }
+  ]
+}

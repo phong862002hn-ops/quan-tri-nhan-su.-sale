@@ -23,6 +23,11 @@ def build_employee_scorecards(
     employee_info: dict[str, dict[str, str]] = {}
 
     for raw_result in evaluation_results:
+        # The Nhanh cache pipeline can pass None for conversations that fall
+        # under the grading guard (not yet idle ≥ 24h, or last message from
+        # sale). Skip those so scorecards reflect only graded work.
+        if raw_result is None:
+            continue
         result = _normalize_result(raw_result)
         conversation = conversation_by_id.get(result["conversation_id"])
         if not conversation or not conversation.employee:
@@ -36,9 +41,17 @@ def build_employee_scorecards(
 
     scorecards = []
     for employee_id, results in grouped_results.items():
-        total_score = sum(float(item["total_score"]) for item in results)
         conversation_count = len(results)
-        average_score = round(total_score / conversation_count, 2) if conversation_count else 0.0
+        # Average the percentage (score / effective_max) so conversations with
+        # different effective_max_score (FB=105, Shopee=98, etc.) are compared
+        # fairly. Fall back to absolute score when max_score is missing/0.
+        def _conv_percent(item: dict) -> float:
+            mx = float(item.get("max_score") or 0)
+            if mx <= 0:
+                return float(item["total_score"])
+            return (float(item["total_score"]) / mx) * 100
+        percents = [_conv_percent(item) for item in results]
+        average_score = round(sum(percents) / conversation_count, 2) if conversation_count else 0.0
         passed_rate = round(sum(1 for item in results if item["passed"]) / conversation_count, 2) if conversation_count else 0.0
         blacklist_count = sum(1 for item in results if item["blacklist_triggered"])
 
@@ -81,7 +94,7 @@ def build_employee_scorecards(
                 "employee_name": employee_info[employee_id]["employee_name"],
                 "conversation_count": conversation_count,
                 "average_score": average_score,
-                "grade": grade_score(average_score, False),
+                "grade": grade_score(average_score, False, max_score=100),
                 "passed_rate": passed_rate,
                 "blacklist_count": blacklist_count,
                 "skill_scores": skill_scores,

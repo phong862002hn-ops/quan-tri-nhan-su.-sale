@@ -27,7 +27,12 @@ def normalize_text(text: str | None) -> str:
 
 
 def keyword_in_text(text: str, keyword: str) -> bool:
-    return normalize_text(keyword) in normalize_text(text)
+    norm_text = normalize_text(text)
+    norm_keyword = normalize_text(keyword).strip()
+    if not norm_keyword:
+        return False
+    pattern = r"(?<![\w])" + re.escape(norm_keyword) + r"(?![\w])"
+    return bool(re.search(pattern, norm_text))
 
 
 def get_messages_for_scope(conversation: Conversation, scope: str) -> list[Message]:
@@ -78,6 +83,7 @@ def build_finding(
         evidence_text=evidence_text,
         explanation=explanation,
         suggestion=None if passed else suggestion,
+        rationale=rule.rationale,
     )
 
 
@@ -239,17 +245,37 @@ def evaluate_employee_last_message(conversation: Conversation, rule: Rule) -> Fi
     return build_finding(rule, passed, [last_message], explanation, suggestion=rule.config.get("fail_suggestion"))
 
 
+CUSTOMER_CLOSING_KEYWORDS = [
+    "cảm ơn", "cám ơn", "thanks", "thank you", "tks", "tk",
+    "ok shop", "ok ạ", "okela", "oke ạ", "oki", "okie",
+    "em đặt", "em chốt", "chốt đơn",
+    "vâng ạ", "dạ vâng", "dạ được", "được rồi",
+    "vậy nhé", "vậy ha",
+]
+
+
 def evaluate_customer_not_left_unanswered(conversation: Conversation, rule: Rule) -> Finding:
     if not conversation.messages:
         return build_finding(rule, False, [], "Hội thoại rỗng.", suggestion=rule.config.get("fail_suggestion"))
     last_message = conversation.messages[-1]
-    passed = last_message.sender_type != "customer"
-    explanation = (
-        "Khách không bị bỏ lại ở cuối hội thoại."
-        if passed
-        else "Khách là người nhắn cuối nhưng nhân viên chưa phản hồi."
+    if last_message.sender_type != "customer":
+        return build_finding(rule, True, [last_message], "Khách không bị bỏ lại ở cuối hội thoại.")
+    closing_keywords = rule.config.get("customer_closing_keywords", CUSTOMER_CLOSING_KEYWORDS)
+    is_closing_ack = any(keyword_in_text(last_message.text, kw) for kw in closing_keywords)
+    if is_closing_ack:
+        return build_finding(
+            rule,
+            True,
+            [last_message],
+            "Khách nhắn cuối là lời cảm ơn / xác nhận, không phải câu hỏi cần trả lời.",
+        )
+    return build_finding(
+        rule,
+        False,
+        [last_message],
+        "Khách là người nhắn cuối và chưa có acknowledgment từ shop.",
+        suggestion=rule.config.get("fail_suggestion"),
     )
-    return build_finding(rule, passed, [last_message], explanation, suggestion=rule.config.get("fail_suggestion"))
 
 
 def evaluate_attachment_required(conversation: Conversation, rule: Rule) -> Finding:
@@ -306,38 +332,60 @@ def evaluate_complaint_flow(conversation: Conversation, rule: Rule) -> Finding:
 def evaluate_missing_required_before_advice(conversation: Conversation, rule: Rule) -> Finding:
     required_keywords = rule.config["required_keywords"]
     advice_keywords = rule.config["advice_keywords"]
-    first_required_index: int | None = None
+
+    first_advice_index: int | None = None
     first_advice_message: Message | None = None
-    customer_image_indexes = {
+    first_required_index: int | None = None
+
+    customer_image_indexes = [
         index
         for index, message in enumerate(conversation.messages)
         if message.sender_type == "customer" and message_has_attachment_type(message, "image")
-    }
+    ]
 
     for index, message in enumerate(conversation.messages):
         if message.sender_type != rule.applies_to:
             continue
-        if first_required_index is None and any(keyword_in_text(message.text, keyword) for keyword in required_keywords):
+        text = message.text
+        if first_required_index is None and any(keyword_in_text(text, kw) for kw in required_keywords):
             first_required_index = index
-        if first_advice_message is None and any(keyword_in_text(message.text, keyword) for keyword in advice_keywords):
+        if first_advice_message is None and any(keyword_in_text(text, kw) for kw in advice_keywords):
             first_advice_message = message
             first_advice_index = index
-            customer_image_before_advice = any(image_index < first_advice_index for image_index in customer_image_indexes)
-            if (first_required_index is None or first_required_index > first_advice_index) and not customer_image_before_advice:
-                return build_finding(
-                    rule,
-                    False,
-                    [message],
-                    "Nhân viên tư vấn trước khi yêu cầu ảnh tóc hiện tại.",
-                    suggestion=rule.config.get("fail_suggestion"),
-                    evidence_text=message.text,
-                )
+
+    if first_advice_message is None:
+        return build_finding(
+            rule,
+            True,
+            [],
+            "Hội thoại không có tư vấn ràng buộc, rule không áp dụng.",
+        )
+
+    if first_required_index is not None and first_required_index <= first_advice_index:
+        return build_finding(
+            rule,
+            True,
+            [first_advice_message],
+            "Nhân viên đã yêu cầu ảnh tóc trước khi tư vấn.",
+        )
+
+    if customer_image_indexes:
+        first_image_index = customer_image_indexes[0]
+        return build_finding(
+            rule,
+            True,
+            [conversation.messages[first_image_index]],
+            "Khách đã gửi ảnh tóc trong hội thoại, nhân viên có evidence để tư vấn.",
+            evidence_text="Customer image provided in conversation.",
+        )
 
     return build_finding(
         rule,
-        True,
-        [first_advice_message] if first_advice_message else [],
-        "Không phát hiện tư vấn hời hợt.",
+        False,
+        [first_advice_message],
+        "Nhân viên tư vấn mà không có ảnh tóc của khách trong toàn bộ hội thoại.",
+        suggestion=rule.config.get("fail_suggestion"),
+        evidence_text=first_advice_message.text,
     )
 
 
@@ -353,6 +401,53 @@ def evaluate_metadata_flag(conversation: Conversation, rule: Rule) -> Finding:
     return build_finding(rule, not flagged, [], explanation, suggestion=rule.config.get("fail_suggestion"))
 
 
+def evaluate_conditional_keyword(conversation: Conversation, rule: Rule) -> Finding:
+    """Rule chỉ áp dụng khi khách trigger bằng `trigger_keywords`. Nếu không
+    trigger → skip (`max_score=0`, không ảnh hưởng tổng điểm). Nếu trigger
+    và nhân viên trả lời chứa `response_keywords` → pass. Trigger mà nhân
+    viên không response đúng → fail."""
+    cfg = rule.config or {}
+    triggers = cfg.get("trigger_keywords", [])
+    responses = cfg.get("response_keywords", [])
+
+    triggered_at = None
+    triggered_msg: Message | None = None
+    for msg in conversation.messages:
+        if msg.sender_type != "customer":
+            continue
+        if any(keyword_in_text(msg.text, kw) for kw in triggers):
+            triggered_at = msg.sent_at
+            triggered_msg = msg
+            break
+
+    if triggered_at is None:
+        finding = build_finding(
+            rule, True, [], "Khách không hỏi về kỹ thuật — rule không áp dụng.",
+        )
+        finding.skipped = True
+        finding.score = 0.0
+        finding.max_score = 0.0
+        return finding
+
+    for msg in conversation.messages:
+        if msg.sender_type != "employee":
+            continue
+        if msg.sent_at is None or triggered_at is None or msg.sent_at <= triggered_at:
+            continue
+        if any(keyword_in_text(msg.text, kw) for kw in responses):
+            return build_finding(
+                rule, True, [triggered_msg, msg] if triggered_msg else [msg],
+                "Nhân viên đã hướng dẫn kỹ thuật theo yêu cầu khách.",
+            )
+
+    return build_finding(
+        rule, False,
+        [triggered_msg] if triggered_msg else [],
+        "Khách có hỏi kỹ thuật nhưng nhân viên chưa hướng dẫn rõ.",
+        suggestion=cfg.get("fail_suggestion"),
+    )
+
+
 RULE_HANDLERS = {
     "keyword_any": evaluate_keyword_any,
     "keyword_all": evaluate_keyword_all,
@@ -365,10 +460,47 @@ RULE_HANDLERS = {
     "complaint_flow": evaluate_complaint_flow,
     "missing_required_before_advice": evaluate_missing_required_before_advice,
     "metadata_flag": evaluate_metadata_flag,
+    "conditional_keyword": evaluate_conditional_keyword,
 }
 
 
+def _normalize_channel(value: str | None) -> str:
+    """Strip the `nhanh_` prefix the adapter prepends and lowercase."""
+    if not value:
+        return ""
+    raw = str(value).lower()
+    return raw[len("nhanh_"):] if raw.startswith("nhanh_") else raw
+
+
+def should_skip_rule_for_channel(rule: Rule, conversation: Conversation) -> tuple[bool, str]:
+    """Decide whether a rule should be skipped based on the conversation's
+    channel. Returns (skip, reason). Skipped rules contribute 0 to both score
+    and effective max_score so they don't penalise unrelated conversations."""
+    cfg = rule.config or {}
+    channel = _normalize_channel(conversation.channel)
+
+    skip_list = [str(c).lower() for c in cfg.get("skip_for_channels", [])]
+    if channel and channel in skip_list:
+        return True, cfg.get("skip_reason", f"Channel '{channel}' không áp dụng rule này.")
+
+    applies_list = [str(c).lower() for c in cfg.get("applies_to_channels", [])]
+    if applies_list and channel and channel not in applies_list:
+        return True, cfg.get(
+            "skip_reason",
+            f"Rule chỉ áp dụng cho channel: {', '.join(applies_list)}.",
+        )
+    return False, ""
+
+
 def evaluate_rule(conversation: Conversation, rule: Rule) -> Finding:
+    skip, reason = should_skip_rule_for_channel(rule, conversation)
+    if skip:
+        finding = build_finding(rule, True, [], reason)
+        finding.skipped = True
+        finding.score = 0.0
+        finding.max_score = 0.0
+        return finding
+
     handler = RULE_HANDLERS.get(rule.type)
     if handler is None:
         raise ValueError(f"Unsupported rule type: {rule.type}")
